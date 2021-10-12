@@ -9,6 +9,9 @@ const cellCount = width * height
 // Cells
 const cells = []
 
+
+// Finding the position of the shape inside the cells
+
 // Starting Position
 let currentPieceStartingPosition = 0
 
@@ -20,16 +23,20 @@ const t = [4, 5, 6, 15]
 const s = [14, 15, 5, 6]
 const z = [4, 5, 15, 16]
 const o = [4, 5, 14, 15]
+const test = [5]
+// hard code a let variable piece of one block
+
+// an array of constational changes values of the co ords
 
 // Tetrominoes Array
-const tetrominoes = [i , l, j, t, s, z, o]
-console.log(`Tetrominoes --> `,tetrominoes)
+const tetrominoes = [i , l, j, t, s, z, o, test]
 
-const previousPiece = []
-const currentPiece = []
-const nextPiece = []
+const currentPiece = test
 
 const tempArr = []
+const currentPosition = []
+let updatePosition = []
+
 
 // step 1 get get the shapes dropping 
 // collison detection is true or false specify differnt class for moving block
@@ -46,19 +53,70 @@ function createGrid() {
 }
 createGrid()
 
-
-function createTetroPiece() {
-  tetrominoes[6].forEach(number => {
-    cells[number].classList.add('i')
-  })
+// Takes an element from tetrominoes array and places that piece on the grid
+function createTetroPiece(piece) {
+  return piece.forEach(item => cells[item].classList.add('block','i'))
 }
-createTetroPiece()
 
-
-function createTetroNextPiece() {
-    nextPiece.push(createTetroPiece())
+function removeTetroPiece(piece) {
+  return piece.forEach(item => cells[item].classList.remove('block','i'))
 }
-createTetroNextPiece(currentPiece)
+
+// Something to update the position of the piece
+function updatePositionFunc(currentPiece) {
+  return currentPiece.map(item => updatePosition.push(item += width))
+}
+
+createTetroPiece(currentPiece)
+// Your position of your shape takes those co orders and creates the shape
+
+// pass through the co ordinates of the position - iterate through your arrays of co ords and update the values
+function moveDown(currentPiece) {
+
+  setInterval(() => {
+    // console.log(currentPiece)
+    removeTetroPiece(currentPiece)
+
+    // loop looking for postions of new shape location
+      // createTetroPiece(piece.forEach(item => cells[item + 10].classList.add('block','i')))
+      // setInterval(() => {
+        
+      //   updatePositionFunc(currentPiece)
+      // }, 500);
+      setInterval(() => {
+        updatePositionFunc(currentPiece)
+      }, 200);
+           
+
+      // Something that will update the cordinates of the shape
+      // loop throught the co ords and update value
+      // update the position running a loop 
+
+
+    createTetroPiece(updatePosition)
+    
+  }, 1000);
+
+}
+
+moveDown(currentPiece)
+
+// Used for moving pieces around the grid - used with removePiece
+function addPiece(piece) {
+  // cells[currentPiece].classList.add('block')
+}
+
+// Used for moving pieces around the grid - used with addPiece
+function removePiece(piece) {
+  // cells[currentPieceStartingPosition].classList.remove('block')
+}
+
+
+function createTetroNextPiece(piece) {
+  nextPiece.push(piece)
+}
+// createTetroNextPiece(tetrominoes[5])
+
 
 
 function movePiece(piece) {
@@ -68,17 +126,8 @@ function movePiece(piece) {
 }
 movePiece(currentPiece)
 
-function addPiece(piece) {
-  // cells[currentPieceStartingPosition].classList.add('block')
-}
 
-
-function removePiece(piece) {
-  // cells[currentPieceStartingPosition].classList.remove('block')
-}
-
-
-
+// Find the center point of each Tetromineo, If Cube - then no center point
 function tetrominoesCenter(piece) {
   if(currentPiece === [4, 5, 14, 15]) {
     return piece
@@ -89,21 +138,24 @@ function tetrominoesCenter(piece) {
 tetrominoesCenter(currentPiece)
 
 
-function centerPointTetrominoes() {
-  tetrominoes.map(item => {
-    tetrominoesCenter.push(item[2])
-  })
-}
+// console.log(`Moving Piece  -->`, currentPiece)
 
+function moveTetroRight(piece) {
+  // To move any tetromineo I want to map over the current positions in the array and add or substract based on the key pressed
+  // return piece.map(item => item.map(num => num += 1))
+}
 
 function handleKeyPress(e) {
 
 
-  removePiece(currentPieceStartingPosition)
+  // removePiece(currentPieceStartingPosition)
+  // removePiece(currentPiece)
+  removeTetroPiece(currentPiece)
 
-  if(e.keyCode === 39 && currentPieceStartingPosition % width !== width -1) {
+  if(e.keyCode === 39 && currentPiece % width !== width -1) {
     // Right
-    currentPieceStartingPosition++
+    // currentPieceStartingPosition++
+    // moveTetroRight(currentPiece)
 
     // if(e.keyCode === 39 && !cells[currentPieceStartingPosition + 1].classList.contains('block')) {
     //   currentPieceStartingPosition++
@@ -136,7 +188,9 @@ function handleKeyPress(e) {
   
   }
 
-  addPiece(currentPieceStartingPosition)
+  // addPiece(currentPieceStartingPosition)
+  //addPiece(currentPiece)
+  createTetroPiece(piece)
 
 }
 
