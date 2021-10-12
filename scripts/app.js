@@ -23,7 +23,6 @@ const o = [4, 5, 14, 15]
 
 // Tetrominoes Array
 const tetrominoes = [i , l, j, t, s, z, o]
-
 console.log(`Tetrominoes --> `,tetrominoes)
 
 const previousPiece = []
@@ -47,29 +46,14 @@ function createGrid() {
 }
 createGrid()
 
-// function createGrid() {
-//   for(let i = 0; i < width; i++) {
-//     const cell = document.createElement('div')
-//     cell.classList.add('cell')
-//     cell.id = i
-//     cell.innerText = i
-//     grid.appendChild(cell)
-//     cells.push(cell)
-//     for(let j = 0; j < height; j++) {
-//       cell.classList.add('cell')
-//       cell.id = i
-//       cell.innerText = i
-//       grid.appendChild(cell)
-//       cells.push(cell)
-//     }
-//   }
-// }
-// createGrid()
 
 function createTetroPiece() {
-  
+  tetrominoes[6].forEach(number => {
+    cells[number].classList.add('i')
+  })
 }
 createTetroPiece()
+
 
 function createTetroNextPiece() {
     nextPiece.push(createTetroPiece())
