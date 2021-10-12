@@ -2,17 +2,17 @@ const grid = document.querySelector('.grid')
 
 // Grid Elements
 const width = 10
-const cellCount = 120
+const height = 16
+
+const cellCount = width * height
 
 // Cells
 const cells = []
 
+// Starting Position
+let currentPieceStartingPosition = 0
+
 // Tetrominoes
-// i, l, j, t, s, z, o
-// rotation point 3rd number in array
-const tetrominoesCSSClass = [['i'],['l'],['j'],['t'],['s'],['z'],['o']]
-const tetrominoes = [[3, 4, 5, 6], [14, 4, 5, 6], [4, 5, 6, 16], [4, 5, 6, 15], [14, 15, 5, 6], [4, 5, 15, 16], [4, 5, 14, 15]]
-// arrays with indiviual tetro's
 const i = [3, 4, 5, 6]
 const l = [14, 4, 5, 6]
 const j = [4, 5, 6, 16]
@@ -21,62 +21,76 @@ const s = [14, 15, 5, 6]
 const z = [4, 5, 15, 16]
 const o = [4, 5, 14, 15]
 
+// Tetrominoes Array
+const tetrominoes = [i , l, j, t, s, z, o]
+
+console.log(`Tetrominoes --> `,tetrominoes)
+
 const previousPiece = []
 const currentPiece = []
 const nextPiece = []
 
 const tempArr = []
 
-let currentPieceStartingPosition = 0
-
 // step 1 get get the shapes dropping 
 // collison detection is true or false specify differnt class for moving block
-// while travelling one color, then change color 
-// 
-
+// while travelling one color, then change to another color when stopped 
 
 function createGrid() {
   for(let i = 0; i < cellCount; i++) {
-    const cell = document.createElement('div')
-    cell.classList.add('cell')
-    cell.id = i
-    cell.innerText = i
-    grid.appendChild(cell)
-    cells.push(cell)
+      const cell = document.createElement('div')
+      cell.innerText = i
+      cell.classList.add('cell')
+      grid.appendChild(cell)
+      cells.push(cell)
   }
 }
 createGrid()
 
+// function createGrid() {
+//   for(let i = 0; i < width; i++) {
+//     const cell = document.createElement('div')
+//     cell.classList.add('cell')
+//     cell.id = i
+//     cell.innerText = i
+//     grid.appendChild(cell)
+//     cells.push(cell)
+//     for(let j = 0; j < height; j++) {
+//       cell.classList.add('cell')
+//       cell.id = i
+//       cell.innerText = i
+//       grid.appendChild(cell)
+//       cells.push(cell)
+//     }
+//   }
+// }
+// createGrid()
+
 function createTetroPiece() {
-  const randomPiece = Math.floor(Math.random() * tetrominoes.length)
-  for(let i = 0; i < 4; i++) {
-    currentPiece.push(cells[tetrominoes[randomPiece][i]])
-  }
+  
 }
 createTetroPiece()
 
 function createTetroNextPiece() {
     nextPiece.push(createTetroPiece())
 }
-console.log(createTetroNextPiece(currentPiece));
 createTetroNextPiece(currentPiece)
 
-console.log(`Original Piece -->`,currentPiece)
 
 function movePiece(piece) {
-  console.log(`Move Piece Function -->`, piece)
-  console.log(piece)
-  console.log(cells)
+  // console.log(`Move Piece Function -->`, piece)
+  // console.log(piece)
+  // console.log(cells)
 }
 movePiece(currentPiece)
 
 function addPiece(piece) {
-  cells[currentPieceStartingPosition].classList.add('block')
+  // cells[currentPieceStartingPosition].classList.add('block')
 }
 
 
 function removePiece(piece) {
-  cells[currentPieceStartingPosition].classList.remove('block')
+  // cells[currentPieceStartingPosition].classList.remove('block')
 }
 
 
@@ -91,7 +105,6 @@ function tetrominoesCenter(piece) {
 tetrominoesCenter(currentPiece)
 
 
-console.log(`Tetro Center Point -->`, tetrominoesCenter)
 function centerPointTetrominoes() {
   tetrominoes.map(item => {
     tetrominoesCenter.push(item[2])
