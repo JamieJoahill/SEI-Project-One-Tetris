@@ -39,6 +39,8 @@ const newPosition = []
 
 const tempArr = []
 
+let dropInterval
+
 
 function createGrid() {
   for(let i = 0; i < cellCount; i++) {
@@ -102,11 +104,14 @@ function removeTetroPiece(number) {
 // ^^^^^^^^^^^^^^^^^^^^^^
 
 function stoppedTetroPiece(number) {
+  clearInterval(dropInterval)
+  dropInterval = null
   cells.map(cell => {
     if(Number(cell.innerText) === number) {
       cell.classList.add('stopped')
     }
   })
+  drop() // recalls the interval
 }
 
 // stoppedTetroPiece(4)
@@ -135,10 +140,21 @@ function updateTetro(item) {
 // A piece moves within the drop function
 
 // pass through the co ordinates of the position - iterate through your arrays of co ords and update the values
+
+// generate the shape 
+// then the interval
+// then when it gets to the bottom the interval stops
+// then start up interval again 
+
+// when it gets to the bottom clear the interval 
+// then set the value to the drop interval variable to be equal to null 
+// call the drop function again 
+
+
 function drop() {
 
 
-    const dropInterval = setInterval(() => {
+     dropInterval = setInterval(() => {
 
       for(let i = 0; i < piece.length; i++) {
         createTetroPiece(piece[i])
@@ -222,7 +238,7 @@ function drop() {
         // set time out in here as you would want to delay the position 
 
         console.log('string')
-        stop(dropInterval)
+        clearInterval(dropInterval)
         //cells[piece[i]].classList.add('stopped') // map through the whole shape add classes and remove
         stoppedTetroPiece(piece[i])
 
