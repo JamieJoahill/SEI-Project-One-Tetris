@@ -118,12 +118,14 @@ function stoppedTetroPiece(number) {
   cells.map(cell => {
     if(Number(cell.innerText) === number) {
       cell.classList.add('stopped')
+      console.log(`This cell -->`,cell)
     }
   })
 
   drop() // recalls the interval
 
 }
+
 
 // stoppedTetroPiece(4)
 // stoppedTetroPiece(5)
@@ -197,7 +199,10 @@ function drop() {
 
         if(piece[i] + width >= width * height) { // This is where the piece has stopped at the bottom of the grid
           //cells[piece[i]].classList.add('stopped')
+          console.log(`piece -->`, piece[i])
+          console.log(`piece -->`, piece[i])
           stoppedTetroPiece(piece[i])
+
           // sets the piece back into its original spot
           //piece[i] = 5
           piece[0] = 5
@@ -250,14 +255,20 @@ function drop() {
         // }
 
 
-      console.log(`Checking for Stopped Class 0 -->`, cells[piece[0]].classList.contains('stopped'))
-      console.log(`Checking for Stopped Class 1 -->`, cells[piece[1]].classList.contains('stopped'))
+      // console.log(`Checking for Stopped Class 0 -->`, cells[piece[0]].classList.contains('stopped'))
+      // console.log(`Checking for Stopped Class 1 -->`, cells[piece[1]].classList.contains('stopped'))
 
-      console.log(`Looking ahead for Stopped Class 0 -->`, cells[piece[0] + width].classList.contains('stopped'))
-      console.log(`Looking ahead  Stopped Class 1 -->`, cells[piece[1] + width].classList.contains('stopped'))
+      // console.log(`Looking ahead for Stopped Class 0 -->`, cells[piece[0] + width].classList.contains('stopped'))
+      // console.log(`Looking ahead  Stopped Class 1 -->`, cells[piece[1] + width].classList.contains('stopped'))
 
-      console.log(`Checking for bottom grid 0 -->`, cells[piece[1]] + width >= width * height)
-      console.log(`Checking for bottom grid 1 -->`, cells[piece[1]] + width >= width * height)
+      // console.log(`Checking for bottom grid 0 -->`, cells[piece[1]] + width >= width * height)
+      // console.log(`Checking for bottom grid 1 -->`, cells[piece[1]] + width >= width * height)
+
+      if(cells[piece[i]].classList.contains('stopped')) {
+        // console.log(`piece --> `, piece[i])
+        // console.log(`piece --> `, piece[i])
+        stoppedTetroPiece(piece[0])
+      }
 
       if(cells[piece[0] + width].classList.contains('stopped') && cells[piece[1]] + width >= width * height) { 
         // set time out in here as you would want to delay the position 
@@ -320,19 +331,31 @@ function drop() {
 
 function moveTetroRight(piece) {
   // To move any tetromineo I want to map over the current positions in the array and add or substract based on the key pressed
-  // return piece.map(item => item.map(num => num += 1))
+  piece.map(item => item += 1)
 }
 
 function handleKeyPress(e) {
 
   // removePiece(currentPieceStartingPosition)
   // removePiece(currentPiece)
-  removeTetroPiece(piece)
+
+  for (let i = 0; i < piece.length; i++) { // Removing the piece on the grid
+    removeTetroPiece(piece[i])
+    // console.log(`piece location->`,piece[i])
+  } 
+  //removeTetroPiece(piece)
+
 
   if(e.keyCode === 39 && piece % width !== width -1) {
     // Right
-    // piece++
-    // moveTetroRight(currentPiece)
+    
+    // moveTetroRight(piece)
+    // console.log(piece.map(item))
+    removeTetroPiece(piece)
+    for(let i = 0; i < piece.length; i++) {
+      piece[i]++
+    }
+    createTetroPiece(piece)
 
     // if(e.keyCode === 39 && !cells[currentPieceStartingPosition + 1].classList.contains('block')) {
     //   currentPieceStartingPosition++
@@ -342,39 +365,59 @@ function handleKeyPress(e) {
     // Left
     // piece--
 
+    removeTetroPiece(piece)
+    for(let i = 0; i < piece.length; i++) {
+      piece[i]--
+    }
+    createTetroPiece(piece)
+
     // if(e.keyCode === 37 && !cells[currentPieceStartingPosition - 1].classList.contains('block')) {
     //   currentPieceStartingPosition--
     // }
 
-  } else if(e.keyCode === 38 && piece >= width) {
+  } else if(e.keyCode === 38) {
     // Up
     // Rotate Function
-    piece -= width
+    //piece -= width
+    console.log(`rotate`)
     // if(e.keyCode === 38 && !cells[currentPieceStartingPosition - 10].classList.contains('block')) {
     //   currentPieceStartingPosition -= width
     // }
 
 
 
-  } else if(e.keyCode === 40 && piece + width <= width * 12) {
+  } else if(e.keyCode === 40 && piece[i] + width >= width * height) {
     // Down
-    piece += width
+    //piece += width
+
+    console.log(e.keyCode)
+
+    removeTetroPiece(piece)
+    for(let i = 0; i < piece.length; i++) {
+      piece[i] += width
+    }
+    createTetroPiece(piece)
     // if(e.keyCode === 40 && !cells[currentPieceStartingPosition + 10].classList.contains('block')) {
       
     // }
   
   }
+  
 
   // addPiece(currentPieceStartingPosition)
   //addPiece(currentPiece)
-  createTetroPiece(piece)
+  // createTetroPiece(piece)
+
+  for(let i = 0; i < piece.length; i++) {
+    createTetroPiece(piece[i])
+  }
 
 }
 
 
 
 button.addEventListener('click', runGame)
-// document.addEventListener('keydown', handleKeyPress)
+document.addEventListener('keydown', handleKeyPress)
 
 
 
