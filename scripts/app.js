@@ -66,6 +66,12 @@ function runGame() {
 
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+// 
+function moveTetroDown() {
+  
+}
+
+
 // ----------
 // Adds/Removes a block from the grid using the blocks index
 
@@ -177,6 +183,8 @@ function drop() {
         if(piece[i] + width <= width * height) { // This is where the piece is moving in the grid
           piece[i] += width
 
+          // moveTetroDown(piece[i]) - add this in after break
+
           // console.log(`test ->`,test)
 
           // console.log(`piece ->`, piece)
@@ -242,7 +250,7 @@ function drop() {
         // }
 
 
-        console.log(`Checking for Stopped Class 0 -->`, cells[piece[0]].classList.contains('stopped'))
+      console.log(`Checking for Stopped Class 0 -->`, cells[piece[0]].classList.contains('stopped'))
       console.log(`Checking for Stopped Class 1 -->`, cells[piece[1]].classList.contains('stopped'))
 
       console.log(`Looking ahead for Stopped Class 0 -->`, cells[piece[0] + width].classList.contains('stopped'))
@@ -270,7 +278,7 @@ function drop() {
 
 
 
-      
+
       for (let i = 0; i < piece.length; i++) { // Adding that piece back onto the grid
         createTetroPiece(piece[i])
 
