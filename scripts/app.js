@@ -63,27 +63,27 @@ function runGame() {
 
 // Takes a piece and places on the grid - removeTetroPiece works the same but does the oppersite
 // Uses the cells grid index to add 'block' class to the correct cell in the grid
-function createTetroPiece(shape) {
-  cells[shape].classList.add('block','i')
+function createTetroPiece(item) {
+  cells[item].classList.add('block','i')
 }
 
 // Takes a piece and removes it on the grid - createTetroPiece works the same but does the oppersite
 // Uses the cells grid index to remove 'block' class from a cell in the grid
-function removeTetroPiece(shape) {
-  cells[shape].classList.remove('block','i')
+function removeTetroPiece(item) {
+  cells[item].classList.remove('block','i')
 }
 
 // ^^^^^^^^^^^^^^^^^^^^^^
 
 // This will update another tetro piece once a piece has dropped
-function updateTetro(shape) {
+function updateTetro(item) {
   
 }
 
 // collison detection is true or false specify differnt class for moving block
 
 // ! while travelling the piece should be one color, then change to another color when it has stopped
-// I know when the first shape has dropped if `piece[i] + width <= width * height` is true
+// I know when the first piece has dropped if `piece[i] + width <= width * height` is true
 
 // Where can I add a class to determine when it is moving ? 
 // A piece moves within the drop function
@@ -99,9 +99,14 @@ function drop() {
         removeTetroPiece(piece[i])
       } 
     
-      for (let i = 0; i < piece.length; i++) { // Updating the piece Location to a new location
-        if(piece[i] + width <= width * height) { // This is where the shape is moving in the cell
+      for (let i = 0; i < piece.length; i++) { // Updating the piece Location to a new location - This is where the piece is moving in the grid
+        // if piece[i] + width <= 160 - keep adding on width(10)
+        if(piece[i] + width <= width * height) { 
           piece[i] += width
+        }
+
+        if(piece[i] + width >= width * height) { // This is where the piece has stopped at the bottom of the grid
+          cells[piece[i]].classList.add('stopped')
         }
       }
       
