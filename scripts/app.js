@@ -126,10 +126,6 @@ function updateTetro(item) {
   
 }
 
-function stop(interval) {
-  clearInterval(interval)
-}
-
 // collison detection is true or false specify differnt class for moving block
 
 // while travelling the piece should be one color, then change to another color when it has stopped
@@ -155,12 +151,16 @@ function drop() {
     
       for (let i = 0; i < piece.length; i++) { // Updating the piece Location to a new location - This is where the piece is moving in the grid
         // if piece[i] + width <= 160 - keep adding on width(10)
-        console.log(`What is i -->`,i)
+        //console.log(`What is i -->`, i)
+
         if(piece[i] + width <= width * height) { // This is where the piece is moving in the grid
           piece[i] += width
-          
+          console.log(`test ->`,test)
+          console.log(`piece ->`, piece)
           // console.log(`piece location moving ->`,piece[i])
         }
+
+      
 
         if(piece[i] + width >= width * height) { // This is where the piece has stopped at the bottom of the grid
           //cells[piece[i]].classList.add('stopped')
@@ -174,36 +174,74 @@ function drop() {
           // console.log(`piece location at end ->`,piece[i])
 
         }
+
         // checking shape at the index of certain position contains the class of stopped block
         // if collision is false you can travel freely 
 
         // look at each block and map through it and convert it to a locked block 
 
-        // collions works added my block, removed block, and then converted it
+        // collion works by adding my block, removed block, and then converted it
         
         // I need to check if the piece below is the bottom of the grid or if the pieces are together and then stop both
 
+        // if(cells[piece[i] + width].classList.contains('stopped') || piece[0] + width >= width * height) { // && check for
+        // if(cells[test[1]].classList.contains('stopped') && cells[test[1]] + width >= width * height) { 
+        //   // set time out in here as you would want to delay the position 
+
+        //   console.log('string')
+        //   stop(dropInterval)
+        //   //cells[piece[i]].classList.add('stopped') // map through the whole shape add classes and remove
+        //   stoppedTetroPiece(piece[i])
+
+        //   // console.log(`What is i -->`,i)
+
+        //   // sets the piece back into its original spot
+        //   piece[0] = 5
+        //   piece[1] = 15
+        // }
+
+
         // if piece next cell class is equal to stopped, dont go anymore
         // Checks for the next block below - doesnt check for stacked blocks
-        if(cells[piece[i] + width].classList.contains('stopped')) { // && check for
-          // set time out in here as you would want to delay the position 
-          stop(dropInterval)
-          //cells[piece[i]].classList.add('stopped') // map through the whole shape add classes and remove
-          stoppedTetroPiece(piece[i])
+        // if(cells[piece[i] + width].classList.contains('stopped')) { // && check for
+        //   // set time out in here as you would want to delay the position 
+        //   stop(dropInterval)
+        //   //cells[piece[i]].classList.add('stopped') // map through the whole shape add classes and remove
+        //   stoppedTetroPiece(piece[i])
 
-          // console.log(`What is i -->`,i)
+        //   // console.log(`What is i -->`,i)
 
-          // sets the piece back into its original spot
-          piece[0] = 5
-          piece[1] = 15
-        }
+        //   // sets the piece back into its original spot
+        //   piece[0] = 5
+        //   piece[1] = 15
+        // }
 
       }
+
+      if(cells[test[1]].classList.contains('stopped') && cells[test[1]] + width >= width * height) { 
+        // set time out in here as you would want to delay the position 
+
+        console.log('string')
+        stop(dropInterval)
+        //cells[piece[i]].classList.add('stopped') // map through the whole shape add classes and remove
+        stoppedTetroPiece(piece[i])
+
+        // console.log(`What is i -->`,i)
+
+        // sets the piece back into its original spot
+        piece[0] = 5
+        piece[1] = 15
+      }
+
+
+
       
       for (let i = 0; i < piece.length; i++) { // Adding that piece back onto the grid
         createTetroPiece(piece[i])
 
       }
+
+
       
     }, 1000);
 
@@ -283,6 +321,9 @@ function handleKeyPress(e) {
   createTetroPiece(piece)
 
 }
+
+
+
 button.addEventListener('click', runGame)
 // document.addEventListener('keydown', handleKeyPress)
 
