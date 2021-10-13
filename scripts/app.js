@@ -80,6 +80,10 @@ function updateTetro(item) {
   
 }
 
+function stop(input) {
+  clearInterval(input)
+}
+
 // collison detection is true or false specify differnt class for moving block
 
 // ! while travelling the piece should be one color, then change to another color when it has stopped
@@ -93,7 +97,7 @@ function drop() {
 
   createTetroPiece(piece)
 
-    setInterval(() => {
+    const dropInterval = setInterval(() => {
 
       for (let i = 0; i < piece.length; i++) { // Removing the piece on the grid
         removeTetroPiece(piece[i])
@@ -101,12 +105,13 @@ function drop() {
     
       for (let i = 0; i < piece.length; i++) { // Updating the piece Location to a new location - This is where the piece is moving in the grid
         // if piece[i] + width <= 160 - keep adding on width(10)
-        if(piece[i] + width <= width * height) { 
+        if(piece[i] + width <= width * height) { // This is where the piece is moving in the grid
           piece[i] += width
         }
 
         if(piece[i] + width >= width * height) { // This is where the piece has stopped at the bottom of the grid
           cells[piece[i]].classList.add('stopped')
+          stop(dropInterval)
         }
       }
       
