@@ -101,7 +101,7 @@ function stop(interval) {
 
 // collison detection is true or false specify differnt class for moving block
 
-// ! while travelling the piece should be one color, then change to another color when it has stopped
+// while travelling the piece should be one color, then change to another color when it has stopped
 // I know when the first piece has dropped if `piece[i] + width <= width * height` is true
 
 // Where can I add a class to determine when it is moving ? 
@@ -134,7 +134,7 @@ function drop() {
           cells[piece[i]].classList.add('stopped')
           
           // sets the piece back into its original spot
-          // piece[i] = 5
+          //piece[i] = 5
           piece[0] = 5
           piece[1] = 15
 
@@ -143,11 +143,24 @@ function drop() {
           // console.log(`piece location at end ->`,piece[i])
 
         }
+        
+        // checking shape at the index of certain position contains the class of stopped block
+        // if collision is false you can travel freely 
+
+        // look at each block and map through it and convert it to a locked block 
+
+        // collions works added my block, removed block, and then converted it
+        
+        // I need to check if the piece below is the bottom of the grid or if the pieces are together and then stop both
 
         // if piece next cell class is equal to stopped, dont go anymore
+        // Checks for the next block below - doesnt check for stacked blocks
         if(cells[piece[i] + width].classList.contains('stopped')) {
           // set time out in here as you would want to delay the position 
-          cells[piece[i]].classList.add('stopped')
+          stop(dropInterval)
+          cells[piece[i]].classList.add('stopped') // map through the whole shape add classes and remove
+
+          // sets the piece back into its original spot
           piece[0] = 5
           piece[1] = 15
         }
@@ -162,7 +175,6 @@ function drop() {
     }, 1000);
 
 }
-
 // console.log(cells.forEach(cell => cell))
 
 // function movePiece(piece) {
