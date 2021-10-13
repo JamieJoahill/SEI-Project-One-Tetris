@@ -90,6 +90,26 @@ function removeTetroPiece(number) {
 
 // ^^^^^^^^^^^^^^^^^^^^^^
 
+function stoppedTetroPiece(number) {
+  cells.map(cell => {
+    if(Number(cell.innerText) === number) {
+      cell.classList.add('stopped')
+    }
+  })
+}
+
+stoppedTetroPiece(4)
+stoppedTetroPiece(5)
+stoppedTetroPiece(6)
+
+
+// console.log(cells.map(cell => {
+//   if(cell.innerText === '154') {
+//     cell.classList.add('stopped')
+//   }
+// }))
+
+
 // This will update another tetro piece once a piece has dropped
 function updateTetro(item) {
   
@@ -126,13 +146,13 @@ function drop() {
         // if piece[i] + width <= 160 - keep adding on width(10)
         if(piece[i] + width <= width * height) { // This is where the piece is moving in the grid
           piece[i] += width
-
+          
           // console.log(`piece location moving ->`,piece[i])
         }
 
         if(piece[i] + width >= width * height) { // This is where the piece has stopped at the bottom of the grid
-          cells[piece[i]].classList.add('stopped')
-          
+          //cells[piece[i]].classList.add('stopped')
+          stoppedTetroPiece(i)
           // sets the piece back into its original spot
           //piece[i] = 5
           piece[0] = 5
@@ -143,7 +163,6 @@ function drop() {
           // console.log(`piece location at end ->`,piece[i])
 
         }
-        
         // checking shape at the index of certain position contains the class of stopped block
         // if collision is false you can travel freely 
 
@@ -158,7 +177,8 @@ function drop() {
         if(cells[piece[i] + width].classList.contains('stopped')) {
           // set time out in here as you would want to delay the position 
           stop(dropInterval)
-          cells[piece[i]].classList.add('stopped') // map through the whole shape add classes and remove
+          //cells[piece[i]].classList.add('stopped') // map through the whole shape add classes and remove
+          stoppedTetroPiece(i)
 
           // sets the piece back into its original spot
           piece[0] = 5
