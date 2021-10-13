@@ -38,10 +38,6 @@ const newPosition = []
 const tempArr = []
 
 
-// step 1 get get the shapes dropping 
-// collison detection is true or false specify differnt class for moving block
-// while travelling one color, then change to another color when stopped 
-
 function createGrid() {
   for(let i = 0; i < cellCount; i++) {
       const cell = document.createElement('div')
@@ -53,97 +49,69 @@ function createGrid() {
 }
 createGrid()
 
-// Takes an element from tetrominoes array and places that piece on the grid
-function createTetroPiece(item) {
-  cells[item].classList.add('block','i')
+// When Button is Clicked the piece will start dropping
+
+// When Run button Clicked run the run game function
+function runGame() {
+  drop()
 }
 
-function removeTetroPiece(item) {
-  cells[item].classList.remove('block','i')
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+// ----------
+// Adds/Removes a block from the grid using the blocks index
+
+// Takes a piece and places on the grid - removeTetroPiece works the same but does the oppersite
+// Uses the cells grid index to add 'block' class to the correct cell in the grid
+function createTetroPiece(shape) {
+  cells[shape].classList.add('block','i')
 }
 
-// Something to update the position of the piece
-function updatePositionFunc(shape) {
-  return shape.map(item => newPosition.push(item += width))
-  // shape.map(item => item + width)
-   // shape.map(item => item + width) // Returns me number i put in + 10
+// Takes a piece and removes it on the grid - createTetroPiece works the same but does the oppersite
+// Uses the cells grid index to remove 'block' class from a cell in the grid
+function removeTetroPiece(shape) {
+  cells[shape].classList.remove('block','i')
 }
 
-createTetroPiece(piece)
-// Your position of your shape takes those co orders and creates the shape
+// ^^^^^^^^^^^^^^^^^^^^^^
+
+// This will update another tetro piece once a piece has dropped
+function updateTetro(shape) {
+  
+}
+
+// collison detection is true or false specify differnt class for moving block
+
+// ! while travelling the piece should be one color, then change to another color when it has stopped
+// I know when the first shape has dropped if `piece[i] + width <= width * height` is true
+
+// Where can I add a class to determine when it is moving ? 
+// A piece moves within the drop function
 
 // pass through the co ordinates of the position - iterate through your arrays of co ords and update the values
-function moveDown() {
+function drop() {
 
-  setInterval(() => {
+  createTetroPiece(piece)
 
-    for (let i = 0; i < test.length; i++) {
-      removeTetroPiece(test[i])
-    } 
-  
-    for (let i = 0; i < test.length; i++) {
-      if(test[i] + width <= width * height) {
-        test[i] += width
+    setInterval(() => {
+
+      for (let i = 0; i < piece.length; i++) { // Removing the piece on the grid
+        removeTetroPiece(piece[i])
+      } 
+    
+      for (let i = 0; i < piece.length; i++) { // Updating the piece Location to a new location
+        if(piece[i] + width <= width * height) { // This is where the shape is moving in the cell
+          piece[i] += width
+        }
       }
-    }
-    
-    for (let i = 0; i < test.length; i++) {
-      createTetroPiece(test[i])
-    }
-
-
-    // // console.log(currentPiece)
-    // removeTetroPiece(piece)
-
-    // // loop looking for postions of new shape location
-    // // createTetroPiece(piece.forEach(item => cells[item + 10].classList.add('block','i')))
-    
-    // // Removing Values from Array of current Piece
-    // for(let i = 0; i < currentPiece.length; i++) {
-    //   console.log(`current piece values -->`,currentPiece[i])
-    //   currentPiece.pop()
-    // }      
-
-    // // Something that will update the cordinates of the shape
-    // // loop through the co ords and update value
-    // // update the position running a loop 
-
-    // updatePositionFunc(piece)
-
-    // // Getting values from newPosition array
-    // for(let i = 0; i < newPosition.length; i++) {
-    //   console.log(`new position values -->`,newPosition[i])
-    //   newPosition.push(currentPiece[i])
-    // }
-
-
-    // // setInterval(() => {
-    // //   // createTetroPiece(newPosition)
-    // // }, 400);
-
-    // createTetroPiece(newPosition)
-
-    
-  }, 1000);
+      
+      for (let i = 0; i < piece.length; i++) { // Adding that piece back onto the grid
+        createTetroPiece(piece[i])
+      }
+      
+    }, 1000);
 
 }
-
-// Something to update the position of the piece
-function updatePositionFunc() {
-  return piece.map(item => updatePosition.push(item += width))
-}
-
-
-// When Run button Click run the run game function
-function runGame() {
-  moveDown()
-}
-
-
-function createTetroNextPiece(piece) {
-  nextPiece.push(piece)
-}
-// createTetroNextPiece(tetrominoes[5])
 
 
 
@@ -175,14 +143,13 @@ function moveTetroRight(piece) {
 
 function handleKeyPress(e) {
 
-
   // removePiece(currentPieceStartingPosition)
   // removePiece(currentPiece)
   removeTetroPiece(piece)
 
   if(e.keyCode === 39 && piece % width !== width -1) {
     // Right
-    // currentPieceStartingPosition++
+    // piece++
     // moveTetroRight(currentPiece)
 
     // if(e.keyCode === 39 && !cells[currentPieceStartingPosition + 1].classList.contains('block')) {
@@ -191,7 +158,7 @@ function handleKeyPress(e) {
 
   } else if(e.keyCode === 37 && piece % width !== 0) {
     // Left
-    currentPieceStartingPosition--
+    // piece--
 
     // if(e.keyCode === 37 && !cells[currentPieceStartingPosition - 1].classList.contains('block')) {
     //   currentPieceStartingPosition--
