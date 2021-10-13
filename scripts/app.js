@@ -53,7 +53,11 @@ createGrid()
 
 // When Run button Clicked run the run game function
 function runGame() {
-  drop()
+
+  
+    drop()
+  
+
 }
 
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -64,13 +68,13 @@ function runGame() {
 // Takes a piece and places on the grid - removeTetroPiece works the same but does the oppersite
 // Uses the cells grid index to add 'block' class to the correct cell in the grid
 function createTetroPiece(item) {
-  cells[item].classList.add('block','i')
+  cells[item].classList.add('block')
 }
 
 // Takes a piece and removes it on the grid - createTetroPiece works the same but does the oppersite
 // Uses the cells grid index to remove 'block' class from a cell in the grid
 function removeTetroPiece(item) {
-  cells[item].classList.remove('block','i')
+  cells[item].classList.remove('block')
 }
 
 // ^^^^^^^^^^^^^^^^^^^^^^
@@ -80,8 +84,8 @@ function updateTetro(item) {
   
 }
 
-function stop(input) {
-  clearInterval(input)
+function stop(interval) {
+  clearInterval(interval)
 }
 
 // collison detection is true or false specify differnt class for moving block
@@ -95,35 +99,49 @@ function stop(input) {
 // pass through the co ordinates of the position - iterate through your arrays of co ords and update the values
 function drop() {
 
-  createTetroPiece(piece)
 
     const dropInterval = setInterval(() => {
 
+      createTetroPiece(piece)
+
       for (let i = 0; i < piece.length; i++) { // Removing the piece on the grid
         removeTetroPiece(piece[i])
+        console.log(`piece location->`,piece[i])
       } 
     
       for (let i = 0; i < piece.length; i++) { // Updating the piece Location to a new location - This is where the piece is moving in the grid
         // if piece[i] + width <= 160 - keep adding on width(10)
         if(piece[i] + width <= width * height) { // This is where the piece is moving in the grid
           piece[i] += width
+          console.log(`piece location moving ->`,piece[i])
         }
 
         if(piece[i] + width >= width * height) { // This is where the piece has stopped at the bottom of the grid
           cells[piece[i]].classList.add('stopped')
-          stop(dropInterval)
+          console.log(`piece location at end ->`,piece[i])
+          piece[i] = 5
+          // stop(dropInterval)
+
         }
+
+        // if piece next cell class is equal to stopped, dont go anymore
+        if(cells[piece[i] + width].classList.contains('stopped')) {
+          cells[piece[i]].classList.add('stopped')
+          piece[i] = 5
+        }
+        
       }
       
       for (let i = 0; i < piece.length; i++) { // Adding that piece back onto the grid
         createTetroPiece(piece[i])
+
       }
       
     }, 1000);
 
 }
 
-
+// console.log(cells.forEach(cell => cell))
 
 // function movePiece(piece) {
 //   // console.log(`Move Piece Function -->`, piece)

@@ -79,6 +79,10 @@ button {
   background: hotpink;
 }
 
+.block {
+  background-color: gray;
+}
+
 .stopped {
   background: black;
 }
