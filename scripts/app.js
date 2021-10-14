@@ -126,7 +126,6 @@ function stoppedTetroPiece(number) {
 
 }
 
-
 // stoppedTetroPiece(4)
 // stoppedTetroPiece(5)
 // stoppedTetroPiece(6)
@@ -164,6 +163,7 @@ function updateTetro(item) {
 // call the drop function again
 
 
+
 function drop() {
 
 
@@ -192,16 +192,24 @@ function drop() {
           // console.log(`piece ->`, piece)
 
           // console.log(`piece location moving ->`,piece[i])
+          console.log(`test[0] + width >= width * height`, test[0] + width >= width * height) // false
+
+          console.log(`test[1] + width >= width * height`,test[1] + width >= width * height) // true
+
+          console.log(`cells[test[1]].classList.contains('stopped')`,cells[test[1]].classList.contains('stopped')) // false
 
         }
 
-      
-
         if(piece[i] + width >= width * height) { // This is where the piece has stopped at the bottom of the grid
           //cells[piece[i]].classList.add('stopped')
-          console.log(`piece -->`, piece[i])
-          console.log(`piece -->`, piece[i])
-          stoppedTetroPiece(piece[i])
+          // console.log(`piece[i] + width >= width * height`)
+          // console.log(`piece -->`, piece[i])
+          // console.log(`piece -->`, piece[i])
+          // stoppedTetroPiece(piece[i])
+
+          piece.map(index => {
+            stoppedTetroPiece(index)
+          })
 
           // sets the piece back into its original spot
           //piece[i] = 5
@@ -241,18 +249,21 @@ function drop() {
 
         // if piece next cell class is equal to stopped, dont go anymore
         // Checks for the next block below - doesnt check for stacked blocks
-        // if(cells[piece[i] + width].classList.contains('stopped')) { // && check for
-        //   // set time out in here as you would want to delay the position 
-        //   stop(dropInterval)
-        //   //cells[piece[i]].classList.add('stopped') // map through the whole shape add classes and remove
-        //   stoppedTetroPiece(piece[i])
+        if(cells[piece[i] + width].classList.contains('stopped')) { // && check for
+          // set time out in here as you would want to delay the position 
+          stop(dropInterval)
+          //cells[piece[i]].classList.add('stopped') // map through the whole shape add classes and remove
+          // stoppedTetroPiece(piece[i])
+          piece.map(index => {
+            stoppedTetroPiece(index)
+          })
 
-        //   // console.log(`What is i -->`,i)
+          // console.log(`What is i -->`,i)
 
-        //   // sets the piece back into its original spot
-        //   piece[0] = 5
-        //   piece[1] = 15
-        // }
+          // sets the piece back into its original spot
+          piece[0] = 5
+          piece[1] = 15
+        }
 
 
       // console.log(`Checking for Stopped Class 0 -->`, cells[piece[0]].classList.contains('stopped'))
@@ -267,21 +278,26 @@ function drop() {
       if(cells[piece[i]].classList.contains('stopped')) {
         // console.log(`piece --> `, piece[i])
         // console.log(`piece --> `, piece[i])
-        stoppedTetroPiece(piece[0])
+        console.log(`cells[piece[i]].classList.contains('stopped')`)
+        console.log(`piece --> `, piece[i])
+        // stoppedTetroPiece(piece[i])
+        piece.map(index => {
+          stoppedTetroPiece(index)
+        })
       }
 
-      if(cells[piece[0] + width].classList.contains('stopped') && cells[piece[1]] + width >= width * height) { 
-        // set time out in here as you would want to delay the position 
+      // if(cells[piece[i] + width].classList.contains('stopped') && cells[piece[i]] + width >= width * height) { 
+      //   // set time out in here as you would want to delay the position 
 
+      //   console.log(`cells[piece[0] + width].classList.contains('stopped') && cells[piece[1]] + width >= width * height`)
+      //   console.log(`piece --> `, piece[i])
+      //   stoppedTetroPiece(piece[0])
+      //   stoppedTetroPiece(piece[1])
 
-
-        stoppedTetroPiece(piece[0])
-        stoppedTetroPiece(piece[1])
-
-        // sets the piece back into its original spot
-        piece[0] = 5
-        piece[1] = 15
-      }
+      //   // sets the piece back into its original spot
+      //   piece[0] = 5
+      //   piece[1] = 15
+      // }
 
       // if(cells[piece[i] + width].classList.contains('stopped')) {
       //   stoppedTetroPiece(piece[i])
@@ -331,7 +347,7 @@ function drop() {
 
 function moveTetroRight(piece) {
   // To move any tetromineo I want to map over the current positions in the array and add or substract based on the key pressed
-  piece.map(item => item += 1)
+  // piece.map(item => item += 1)
 }
 
 function handleKeyPress(e) {
@@ -389,6 +405,8 @@ function handleKeyPress(e) {
   } else if(e.keyCode === 40 && piece[i] + width >= width * height) {
     // Down
     //piece += width
+
+    // I think I would have to stop the movedown function from running so I can then move down with a keypress
 
     console.log(e.keyCode)
 
