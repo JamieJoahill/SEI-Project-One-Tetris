@@ -126,6 +126,7 @@ function stoppedTetroPiece(number) {
 
 }
 
+// Manually adding cells into grid with the class of stopped
 console.log(cells.forEach(cell => {
   if(Number(cell.innerText) >= 140)
   cell.classList.add('stopped')
@@ -139,16 +140,19 @@ function checkTetris() {
     if(Number(cell.innerText) >=  120 && Number(cell.innerText) <=  129) {
       // console.log(cell.classList.contains('stopped'))
       // console.log(cell) // clear and remove these cells
+      // cell.classList.remove('stopped')
     }
   
     if(Number(cell.innerText) >=  130 && Number(cell.innerText) <=  139) {
       // console.log(cell.classList.contains('stopped'))
       // console.log(cell) // clear and remove these cells
+      // cell.classList.remove('stopped')
     }
   
     if(Number(cell.innerText) >=  140 && Number(cell.innerText) <=  149) {
       // console.log(cell.classList.contains('stopped'))
       // console.log(cell) // clear and remove these cells
+      // cell.classList.remove('stopped')
       console.log(cell)
     }
   
@@ -401,8 +405,8 @@ function handleKeyPress(e) {
   } 
   //removeTetroPiece(piece)
 
-
-  if(e.keyCode === 39 && piece % width !== width -1) {
+  
+  if(e.keyCode === 39 && piece[0] % width !== width -1 && piece[1] % width !== width -1 && piece[2] % width !== width -1 && piece[3] % width !== width -1) {
     // Right
     
     // moveTetroRight(piece)
@@ -417,7 +421,7 @@ function handleKeyPress(e) {
     //   currentPieceStartingPosition++
     // }
 
-  } else if(e.keyCode === 37 && piece % width !== 0) {
+  } else if(e.keyCode === 37 && piece[0] % width !== 0 && piece[1] % width !== 0 && piece[2] % width !== 0 && piece[3] % width !== 0) {
     // Left
     // piece--
 
