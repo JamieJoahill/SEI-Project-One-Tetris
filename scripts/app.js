@@ -16,31 +16,87 @@ const cells = []
 let currentPieceStartingPosition = 0
 
 // Tetrominoes
-const i = [3, 4, 5, 6]
-const l = [14, 4, 5, 6]
-const j = [4, 5, 6, 16]
-const t = [4, 5, 6, 15]
-const s = [14, 15, 5, 6]
-const z = [4, 5, 15, 16]
-const o = [4, 5, 14, 15]
+// const i = [3, 4, 5, 6]
+// const l = [14, 4, 5, 6]
+// const j = [4, 5, 6, 16]
+// const t = [4, 5, 6, 15]
+// const s = [14, 15, 5, 6]
+// const z = [4, 5, 15, 16]
+// const o = [4, 5, 14, 15]
 
-// const test = [5]
-const test = [5, 15]
-// hard code a let variable piece of one block
+const i = {
+  name: 'i',
+  startLocations: [3, 4, 5, 6],
+  currentLocations: [3, 4, 5, 6],
+  isActive: false
+}
 
-// an array of constational changes values of the co ords
+const l = {
+  name: 'l',
+  startLocations: [14, 4, 5, 6],
+  currentLocations: [14, 4, 5, 6],
+  isActive: false
+}
+
+const j = {
+  name: 'j',
+  startLocations: [4, 5, 6, 16],
+  currentLocations: [4, 5, 6, 16],
+  isActive: false
+}
+
+const t = {
+  name: 't',
+  startLocations: [4, 5, 6, 15],
+  currentLocations: [4, 5, 6, 15],
+  isActive: false
+}
+
+const s = {
+  name: 's',
+  startLocations: [14, 15, 5, 6],
+  currentLocations: [14, 15, 5, 6],
+  isActive: false
+}
+
+const z = {
+  name: 'z',
+  startLocations: [4, 5, 15, 16],
+  currentLocations: [4, 5, 15, 16],
+  isActive: false
+}
+
+const o = {
+  name: 'o',
+  startLocations: [4, 5, 14, 15],
+  currentLocations: [4, 5, 14, 15],
+  isActive: false
+}
+
+const test = {
+  name: 'test',
+  startLocations: [5, 15],
+  currentLocations: [5, 15],
+  isActive: false
+}
 
 // Tetrominoes Array
-const tetrominoes = [i , l, j, t, s, z, o, test]
+const tetrominoes = [i , l, j, t, s, z, o]
 
-const piece = test
+let activePiece = null
 
 const newPosition = []
 
 const tempArr = []
 
+let gameInterval
+
 let dropInterval
 
+function randomPiece() { // Generates a random piece and assigns it to active piece
+  const randomNumber = Math.floor(Math.random() * tetrominoes.length)
+  activePiece = tetrominoes[randomNumber]
+}
 
 function createGrid() {
   for(let i = 0; i < cellCount; i++) {
@@ -58,10 +114,10 @@ createGrid()
 // When Run button Clicked run the run game function
 function runGame() {
 
-  
-    drop()
-  
-
+    randomPiece() // pick a piece
+    addPiece(activePiece.currentLocations)// add a piece
+    movePiece('first')// call function to start timer
+    
 }
 
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -77,34 +133,161 @@ function moveTetroDown() {
 
 // Takes a piece and places on the grid - removeTetroPiece works the same but does the oppersite
 // Uses the cells grid index to add 'block' class to the correct cell in the grid
-function createTetroPiece(number) {
-  // cells[item].classList.add('block')
-  // cells[piece[number]].classList.add('block')
-  cells.map(cell => {
-    if(Number(cell.innerText) === number) {
-      cell.classList.add('block')
-    }
+// function createTetroPiece(number) {
+//   // cells[item].classList.add('block')
+//   // cells[piece[number]].classList.add('block')
+//   cells.map(cell => {
+//     if(Number(cell.innerText) === number) {
+//       cell.classList.add('block')
+//     }
+//   })
+// }
+
+
+// const test = {
+//   name: 'test',
+//   startLocations: [5, 15],
+//   currentLocations: [5, 15],
+//   isActive: false
+// }
+
+
+// Takes in the active piece loops over all indexs in the postitions array and then sets that position on the grid with an active
+function addPiece(positions) {
+  positions.forEach(block => {
+    cells[block].classList.add(activePiece.name, 'active')
+    // block.isActive = true
   })
 }
+
+// Takes in the active piece loops over all indexs in the postitions array and then removes that position on the grid with an active
+function removePiece(positions) {
+  positions.forEach(block => {
+    cells[block].classList.remove(activePiece.name)
+    cells[block].classList.remove('active')
+    // block.isActive = false
+  })
+}
+
+function stopAndResetPiece() {
+  // stop timer
+  // set current postion of active piece to be equal to current position
+  // Set timer back to null
+  // Set Bool isActive from true to false
+  // call move piece again to get a new piece 
+  clearInterval(gameInterval)
+  activePiece.currentLocations.forEach(block => cells[block].classList.remove('active'))
+  activePiece.currentLocations = [...activePiece.startLocations]
+  gameInterval = null
+  // activePiece.isActive = false
+  movePiece()
+}
+
+
+function movePiece(first) {
+
+  if(!first) randomPiece()
+
+  gameInterval = setInterval(() => { // The game runs inside this interval
+
+    const hasHitBottom = activePiece.currentLocations.some(position => position > 149) // will be true or false
+
+    // console.log(activePiece.currentLocations)
+
+    const hasHitPiece = !hasHitBottom ? activePiece.currentLocations.some(position => {
+      // console.log(cells[position + width].classList)
+      return cells[position + width].classList.length === 2 // checks if that classes at this position contain 2
+    }) : false 
+
+    // console.log(hasHitPiece)
+
+    if(hasHitPiece && !first) {
+      stopAndResetPiece()
+      return // The return here lets you do the function and then stop without doing the other if statement
+    }
+
+    if(hasHitBottom) {
+      stopAndResetPiece()
+      return // The return here lets you do the function and then stop without doing the other if statement
+    }
+    
+    // Default shape behaviour
+    removePiece(activePiece.currentLocations) // remove a piece from this location
+    activePiece.currentLocations = activePiece.currentLocations.map(position => position + width) // updates the piece location
+    addPiece(activePiece.currentLocations) // adds the piece back at the new location
+
+
+
+
+  }, 800)
+
+}
+
+// function to handle keys
+// remove from active piece current positions 
+// key what key is being pressed
+// redefine value of active piece current positions because its different based on keys
+// use the map to reassign the values of active piece current positions
+// check key press first then handle conditions
+// console.log key presses are registering
+
+function handleKeyPress(event) {
+  // console.log(event.keyCode)
+
+  const key = event.keyCode
+
+  if(key === 38) { // Up
+    // Rotate
+  }
+  
+
+  if(key === 39 && activePiece.currentLocations[0] % width !== width - 1 && activePiece.currentLocations[1] % width !== width - 1 && activePiece.currentLocations[2] % width !== width - 1 && activePiece.currentLocations[3] % width !== width - 1) { // Right
+    removePiece(activePiece.currentLocations) // remove a piece from this location
+    activePiece.currentLocations = activePiece.currentLocations.map(position => position + 1) // updates the piece location
+    addPiece(activePiece.currentLocations) // adds the piece back at the new location
+  }
+
+  if(key === 40 && activePiece.currentLocations[0] + width <= cellCount && activePiece.currentLocations[1] + width <= cellCount && activePiece.currentLocations[2] + width <= cellCount && activePiece.currentLocations[3] + width <= cellCount) { // Down
+    removePiece(activePiece.currentLocations) // remove a piece from this location
+    activePiece.currentLocations = activePiece.currentLocations.map(position => position + width) // updates the piece location
+    addPiece(activePiece.currentLocations) // adds the piece back at the new location
+  }
+
+  if(key === 37 && activePiece.currentLocations[0] % width !== 0 && activePiece.currentLocations[1] % width !== 0 && activePiece.currentLocations[2] % width !== 0 && activePiece.currentLocations[3] % width !== 0) { // Left
+    removePiece(activePiece.currentLocations) // remove a piece from this location
+    activePiece.currentLocations = activePiece.currentLocations.map(position => position - 1) // updates the piece location
+    addPiece(activePiece.currentLocations) // adds the piece back at the new location
+  }
+}
+
+
+
+
+document.addEventListener('keydown', handleKeyPress)
+
+
+
+
+
 
 // cells[piece[0]].classList.add('block')
 // cells[piece[1]].classList.add('block')
 
-// console.log(cells[o[0]])
-// console.log(cells[o[1]])
-// console.log(cells[o[2]])
-// console.log(cells[o[3]])
+//  (cells[o[0]])
+//  (cells[o[1]])
+//  (cells[o[2]])
+//  (cells[o[3]])
 // Takes a piece and removes it on the grid - createTetroPiece works the same but does the oppersite
 // Uses the cells grid index to remove 'block' class from a cell in the grid
-function removeTetroPiece(number) {
-  // cells[item].classList.remove('block')
-  //cells[piece[number]].classList.remove('block')
-  cells.map(cell => {
-    if(Number(cell.innerText) === number) {
-      cell.classList.remove('block')
-    }
-  })
-}
+// function removeTetroPiece(number) {
+//   // cells[item].classList.remove('block')
+//   //cells[piece[number]].classList.remove('block')
+//   cells.map(cell => {
+//     if(Number(cell.innerText) === number) {
+//       cell.classList.remove('block')
+//     }
+//   })
+// }
 
 
 // ^^^^^^^^^^^^^^^^^^^^^^
@@ -115,59 +298,31 @@ function stoppedTetroPiece(number) {
 
   dropInterval = null // assigns the interval value to null to it can be called again
 
-  cells.map(cell => {
-    if(Number(cell.innerText) === number) {
-      cell.classList.add('stopped')
-      console.log(`This cell -->`,cell)
-    }
-  })
+    cells.map(cell => {
+      if(Number(cell.innerText) === number) {
+        cell.classList.add('stopped')
+      }
+    })
 
   drop() // recalls the interval
+
 
 }
 
 // Manually adding cells into grid with the class of stopped
-console.log(cells.forEach(cell => {
-  if(Number(cell.innerText) >= 140)
-  cell.classList.add('stopped')
-}))
+// cells.forEach(cell => {
+//   if(Number(cell.innerText) >= 140 && Number(cell.innerText) <= 148) {
+//     cell.classList.add('stopped')
+//   }
 
-// Should loop through each row of cells and check if every cell contains stopped
-function checkTetris() {
+//   if(Number(cell.innerText) >= 150 && Number(cell.innerText) <= 159) {
+//     cell.classList.add('stopped')
+//   }
+// })
 
-  cells.forEach(cell => {
-
-    if(Number(cell.innerText) >=  120 && Number(cell.innerText) <=  129) {
-      // console.log(cell.classList.contains('stopped'))
-      // console.log(cell) // clear and remove these cells
-      // cell.classList.remove('stopped')
-    }
-  
-    if(Number(cell.innerText) >=  130 && Number(cell.innerText) <=  139) {
-      // console.log(cell.classList.contains('stopped'))
-      // console.log(cell) // clear and remove these cells
-      // cell.classList.remove('stopped')
-    }
-  
-    if(Number(cell.innerText) >=  140 && Number(cell.innerText) <=  149) {
-      // console.log(cell.classList.contains('stopped'))
-      // console.log(cell) // clear and remove these cells
-      // cell.classList.remove('stopped')
-      console.log(cell)
-    }
-  
-    if(Number(cell.innerText) >=  150 && Number(cell.innerText) <=  159) {
-      //console.log(cell.classList.contains('stopped'))
-      //console.log(cell) // clear and remove these cells
-      // cell.classList.remove('stopped')
-    }
-  
-  })
-
-}
-
-checkTetris()
-
+// cells.forEach(cell => {
+//   if()
+// })
 
 
 // stoppedTetroPiece(4)
@@ -175,7 +330,7 @@ checkTetris()
 // stoppedTetroPiece(6)
 
 
-// console.log(cells.map(cell => {
+//  (cells.map(cell => {
 //   if(cell.innerText === '154') {
 //     cell.classList.add('stopped')
 //   }
@@ -219,36 +374,38 @@ function drop() {
 
       for (let i = 0; i < piece.length; i++) { // Removing the piece on the grid
         removeTetroPiece(piece[i])
-        // console.log(`piece location->`,piece[i])
+        //  (`piece location->`,piece[i])
       } 
     
       for (let i = 0; i < piece.length; i++) { // Updating the piece Location to a new location - This is where the piece is moving in the grid
         // if piece[i] + width <= 160 - keep adding on width(10)
-        //console.log(`What is i -->`, i)
+        // (`What is i -->`, i)
 
         if(piece[i] + width <= width * height) { // This is where the piece is moving in the grid
           piece[i] += width
 
           // moveTetroDown(piece[i]) - add this in after break
 
-          // console.log(`test ->`,test)
+          checkTetris()
 
-          // console.log(`piece ->`, piece)
+          //  (`test ->`,test)
 
-          // console.log(`piece location moving ->`,piece[i])
-          console.log(`test[0] + width >= width * height`, test[0] + width >= width * height) // false
+          //  (`piece ->`, piece)
 
-          console.log(`test[1] + width >= width * height`,test[1] + width >= width * height) // true
+          //  (`piece location moving ->`,piece[i])
+          //  (`test[0] + width >= width * height`, test[0] + width >= width * height) // false
 
-          console.log(`cells[test[1]].classList.contains('stopped')`,cells[test[1]].classList.contains('stopped')) // false
+          //  (`test[1] + width >= width * height`,test[1] + width >= width * height) // true
+
+          //  (`cells[test[1]].classList.contains('stopped')`,cells[test[1]].classList.contains('stopped')) // false
 
         }
 
         if(piece[i] + width >= width * height) { // This is where the piece has stopped at the bottom of the grid
           //cells[piece[i]].classList.add('stopped')
-          // console.log(`piece[i] + width >= width * height`)
-          // console.log(`piece -->`, piece[i])
-          // console.log(`piece -->`, piece[i])
+          //  (`piece[i] + width >= width * height`)
+          //  (`piece -->`, piece[i])
+          //  (`piece -->`, piece[i])
           // stoppedTetroPiece(piece[i])
 
           piece.map(index => {
@@ -261,7 +418,7 @@ function drop() {
           piece[1] = 15
           // stop(dropInterval)
 
-          // console.log(`piece location at end ->`,piece[i])
+          //  (`piece location at end ->`,piece[i])
 
         }
 
@@ -278,12 +435,12 @@ function drop() {
         // if(cells[test[1]].classList.contains('stopped') && cells[test[1]] + width >= width * height) { 
         //   // set time out in here as you would want to delay the position 
 
-        //   console.log('string')
+        //    ('string')
         //   stop(dropInterval)
         //   //cells[piece[i]].classList.add('stopped') // map through the whole shape add classes and remove
         //   stoppedTetroPiece(piece[i])
 
-        //   // console.log(`What is i -->`,i)
+        //   //  (`What is i -->`,i)
 
         //   // sets the piece back into its original spot
         //   piece[0] = 5
@@ -302,7 +459,7 @@ function drop() {
             stoppedTetroPiece(index)
           })
 
-          // console.log(`What is i -->`,i)
+          //  (`What is i -->`,i)
 
           // sets the piece back into its original spot
           piece[0] = 5
@@ -310,20 +467,20 @@ function drop() {
         }
 
 
-      // console.log(`Checking for Stopped Class 0 -->`, cells[piece[0]].classList.contains('stopped'))
-      // console.log(`Checking for Stopped Class 1 -->`, cells[piece[1]].classList.contains('stopped'))
+      //  (`Checking for Stopped Class 0 -->`, cells[piece[0]].classList.contains('stopped'))
+      //  (`Checking for Stopped Class 1 -->`, cells[piece[1]].classList.contains('stopped'))
 
-      // console.log(`Looking ahead for Stopped Class 0 -->`, cells[piece[0] + width].classList.contains('stopped'))
-      // console.log(`Looking ahead  Stopped Class 1 -->`, cells[piece[1] + width].classList.contains('stopped'))
+      //  (`Looking ahead for Stopped Class 0 -->`, cells[piece[0] + width].classList.contains('stopped'))
+      //  (`Looking ahead  Stopped Class 1 -->`, cells[piece[1] + width].classList.contains('stopped'))
 
-      // console.log(`Checking for bottom grid 0 -->`, cells[piece[1]] + width >= width * height)
-      // console.log(`Checking for bottom grid 1 -->`, cells[piece[1]] + width >= width * height)
+      //  (`Checking for bottom grid 0 -->`, cells[piece[1]] + width >= width * height)
+      //  (`Checking for bottom grid 1 -->`, cells[piece[1]] + width >= width * height)
 
       if(cells[piece[i]].classList.contains('stopped')) {
-        // console.log(`piece --> `, piece[i])
-        // console.log(`piece --> `, piece[i])
-        console.log(`cells[piece[i]].classList.contains('stopped')`)
-        console.log(`piece --> `, piece[i])
+        //  (`piece --> `, piece[i])
+        //  (`piece --> `, piece[i])
+        //  (`cells[piece[i]].classList.contains('stopped')`)
+        //  (`piece --> `, piece[i])
         // stoppedTetroPiece(piece[i])
         piece.map(index => {
           stoppedTetroPiece(index)
@@ -333,8 +490,8 @@ function drop() {
       // if(cells[piece[i] + width].classList.contains('stopped') && cells[piece[i]] + width >= width * height) { 
       //   // set time out in here as you would want to delay the position 
 
-      //   console.log(`cells[piece[0] + width].classList.contains('stopped') && cells[piece[1]] + width >= width * height`)
-      //   console.log(`piece --> `, piece[i])
+      //    (`cells[piece[0] + width].classList.contains('stopped') && cells[piece[1]] + width >= width * height`)
+      //    (`piece --> `, piece[i])
       //   stoppedTetroPiece(piece[0])
       //   stoppedTetroPiece(piece[1])
 
@@ -366,12 +523,12 @@ function drop() {
     }, 1000);
 
 }
-// console.log(cells.forEach(cell => cell))
+//  (cells.forEach(cell => cell))
 
 // function movePiece(piece) {
-//   // console.log(`Move Piece Function -->`, piece)
-//   // console.log(piece)
-//   // console.log(cells)
+//   //  (`Move Piece Function -->`, piece)
+//   //  (piece)
+//   //  (cells)
 // }
 // movePiece(currentPiece)
 
@@ -387,99 +544,99 @@ function drop() {
 // tetrominoesCenter(currentPiece)
 
 
-// console.log(`Moving Piece  -->`, currentPiece)
+//  (`Moving Piece  -->`, currentPiece)
 
 function moveTetroRight(piece) {
   // To move any tetromineo I want to map over the current positions in the array and add or substract based on the key pressed
   // piece.map(item => item += 1)
 }
 
-function handleKeyPress(e) {
+// function handleKeyPress(e) {
 
-  // removePiece(currentPieceStartingPosition)
-  // removePiece(currentPiece)
+//   // removePiece(currentPieceStartingPosition)
+//   // removePiece(currentPiece)
 
-  for (let i = 0; i < piece.length; i++) { // Removing the piece on the grid
-    removeTetroPiece(piece[i])
-    // console.log(`piece location->`,piece[i])
-  } 
-  //removeTetroPiece(piece)
+//   for (let i = 0; i < piece.length; i++) { // Removing the piece on the grid
+//     removeTetroPiece(piece[i])
+//     //  (`piece location->`,piece[i])
+//   } 
+//   //removeTetroPiece(piece)
 
   
-  if(e.keyCode === 39 && piece[0] % width !== width -1 && piece[1] % width !== width -1 && piece[2] % width !== width -1 && piece[3] % width !== width -1) {
-    // Right
+//   if(e.keyCode === 39 && piece[0] % width !== width -1 && piece[1] % width !== width -1 && piece[2] % width !== width -1 && piece[3] % width !== width -1) {
+//     // Right
     
-    // moveTetroRight(piece)
-    // console.log(piece.map(item))
-    removeTetroPiece(piece)
-    for(let i = 0; i < piece.length; i++) {
-      piece[i]++
-    }
-    createTetroPiece(piece)
+//     // moveTetroRight(piece)
+//     //  (piece.map(item))
+//     removeTetroPiece(piece)
+//     for(let i = 0; i < piece.length; i++) {
+//       piece[i]++
+//     }
+//     createTetroPiece(piece)
 
-    // if(e.keyCode === 39 && !cells[currentPieceStartingPosition + 1].classList.contains('block')) {
-    //   currentPieceStartingPosition++
-    // }
+//     // if(e.keyCode === 39 && !cells[currentPieceStartingPosition + 1].classList.contains('block')) {
+//     //   currentPieceStartingPosition++
+//     // }
 
-  } else if(e.keyCode === 37 && piece[0] % width !== 0 && piece[1] % width !== 0 && piece[2] % width !== 0 && piece[3] % width !== 0) {
-    // Left
-    // piece--
+//   } else if(e.keyCode === 37 && piece[0] % width !== 0 && piece[1] % width !== 0 && piece[2] % width !== 0 && piece[3] % width !== 0) {
+//     // Left
+//     // piece--
 
-    removeTetroPiece(piece)
-    for(let i = 0; i < piece.length; i++) {
-      piece[i]--
-    }
-    createTetroPiece(piece)
+//     removeTetroPiece(piece)
+//     for(let i = 0; i < piece.length; i++) {
+//       piece[i]--
+//     }
+//     createTetroPiece(piece)
 
-    // if(e.keyCode === 37 && !cells[currentPieceStartingPosition - 1].classList.contains('block')) {
-    //   currentPieceStartingPosition--
-    // }
+//     // if(e.keyCode === 37 && !cells[currentPieceStartingPosition - 1].classList.contains('block')) {
+//     //   currentPieceStartingPosition--
+//     // }
 
-  } else if(e.keyCode === 38) {
-    // Up
-    // Rotate Function
-    //piece -= width
-    console.log(`rotate`)
-    // if(e.keyCode === 38 && !cells[currentPieceStartingPosition - 10].classList.contains('block')) {
-    //   currentPieceStartingPosition -= width
-    // }
+//   } else if(e.keyCode === 38) {
+//     // Up
+//     // Rotate Function
+//     //piece -= width
+//      (`rotate`)
+//     // if(e.keyCode === 38 && !cells[currentPieceStartingPosition - 10].classList.contains('block')) {
+//     //   currentPieceStartingPosition -= width
+//     // }
 
 
 
-  } else if(e.keyCode === 40 && piece[i] + width >= width * height) {
-    // Down
-    //piece += width
+//   // } else if(e.keyCode === 40 && piece[0] + width <= width * height || piece[1] + width <= width * height || piece[2] + width <= width * height || piece[3] + width <= width * height) {
+//   //   // Down
+//   //   //piece += width
 
-    // I think I would have to stop the movedown function from running so I can then move down with a keypress
+//   //   // I think I would have to stop the movedown function from running so I can then move down with a keypress
 
-    console.log(e.keyCode)
+//   //   //  (e.keyCode)
 
-    removeTetroPiece(piece)
-    for(let i = 0; i < piece.length; i++) {
-      piece[i] += width
-    }
-    createTetroPiece(piece)
-    // if(e.keyCode === 40 && !cells[currentPieceStartingPosition + 10].classList.contains('block')) {
+//   //   removeTetroPiece(piece)
+//   //   for(let i = 0; i < piece.length; i++) {
+//   //     piece[i] += width
+//   //   }
+//   //   createTetroPiece(piece)
+//   //   // if(e.keyCode === 40 && !cells[currentPieceStartingPosition + 10].classList.contains('block')) {
       
-    // }
+//   //   // }
   
-  }
+//   }
   
 
-  // addPiece(currentPieceStartingPosition)
-  //addPiece(currentPiece)
-  // createTetroPiece(piece)
+//   // addPiece(currentPieceStartingPosition)
+//   //addPiece(currentPiece)
+//   // createTetroPiece(piece)
 
-  for(let i = 0; i < piece.length; i++) {
-    createTetroPiece(piece[i])
-  }
+//   for(let i = 0; i < piece.length; i++) {
+//     createTetroPiece(piece[i])
+//   }
 
-}
+// }
 
 
 
 button.addEventListener('click', runGame)
-document.addEventListener('keydown', handleKeyPress)
+//document.addEventListener('keydown', handleKeyPress)
 
 
 
@@ -509,7 +666,7 @@ document.addEventListener('keydown', handleKeyPress)
   //     currentPiece -= width
   //   }
 
-  //   console.log('Rotate 90 deg function')
+  //    ('Rotate 90 deg function')
 
 
   // } else if(e.keyCode === 40 && currentPiece + width <= width * 12 - 1) {
