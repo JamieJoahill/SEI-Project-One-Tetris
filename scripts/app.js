@@ -126,6 +126,46 @@ function stoppedTetroPiece(number) {
 
 }
 
+console.log(cells.forEach(cell => {
+  if(Number(cell.innerText) >= 140)
+  cell.classList.add('stopped')
+}))
+
+// Should loop through each row of cells and check if every cell contains stopped
+function checkTetris() {
+
+  cells.forEach(cell => {
+
+    if(Number(cell.innerText) >=  120 && Number(cell.innerText) <=  129) {
+      // console.log(cell.classList.contains('stopped'))
+      // console.log(cell) // clear and remove these cells
+    }
+  
+    if(Number(cell.innerText) >=  130 && Number(cell.innerText) <=  139) {
+      // console.log(cell.classList.contains('stopped'))
+      // console.log(cell) // clear and remove these cells
+    }
+  
+    if(Number(cell.innerText) >=  140 && Number(cell.innerText) <=  149) {
+      // console.log(cell.classList.contains('stopped'))
+      // console.log(cell) // clear and remove these cells
+      console.log(cell)
+    }
+  
+    if(Number(cell.innerText) >=  150 && Number(cell.innerText) <=  159) {
+      //console.log(cell.classList.contains('stopped'))
+      //console.log(cell) // clear and remove these cells
+      // cell.classList.remove('stopped')
+    }
+  
+  })
+
+}
+
+checkTetris()
+
+
+
 // stoppedTetroPiece(4)
 // stoppedTetroPiece(5)
 // stoppedTetroPiece(6)
