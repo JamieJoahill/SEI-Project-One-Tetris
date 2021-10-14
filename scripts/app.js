@@ -28,66 +28,62 @@ const i = {
   name: 'i',
   startLocations: [3, 4, 5, 6],
   currentLocations: [3, 4, 5, 6],
-  isActive: false
+  rotation: [3, 4, 5, 6]
 }
+
 
 const l = {
   name: 'l',
   startLocations: [14, 4, 5, 6],
-  currentLocations: [14, 4, 5, 6],
-  isActive: false
+  currentLocations: [14, 4, 5, 6]
 }
 
 const j = {
   name: 'j',
   startLocations: [4, 5, 6, 16],
-  currentLocations: [4, 5, 6, 16],
-  isActive: false
+  currentLocations: [4, 5, 6, 16]
 }
 
 const t = {
   name: 't',
   startLocations: [4, 5, 6, 15],
-  currentLocations: [4, 5, 6, 15],
-  isActive: false
+  currentLocations: [4, 5, 6, 15]
 }
 
 const s = {
   name: 's',
   startLocations: [14, 15, 5, 6],
-  currentLocations: [14, 15, 5, 6],
-  isActive: false
+  currentLocations: [14, 15, 5, 6]
 }
 
 const z = {
   name: 'z',
   startLocations: [4, 5, 15, 16],
-  currentLocations: [4, 5, 15, 16],
-  isActive: false
+  currentLocations: [4, 5, 15, 16]
 }
 
 const o = {
   name: 'o',
   startLocations: [4, 5, 14, 15],
-  currentLocations: [4, 5, 14, 15],
-  isActive: false
+  currentLocations: [4, 5, 14, 15]
 }
 
 const test = {
   name: 'test',
   startLocations: [5, 15],
-  currentLocations: [5, 15],
-  isActive: false
+  currentLocations: [5, 15]
 }
 
 // Tetrominoes Array
 const tetrominoes = [i , l, j, t, s, z, o]
 
+const tetrisRows = []
+
 let activePiece = null
 
-const newPosition = []
-
-const tempArr = []
+let score = null
+let highScore = null
+let gameSpeed = 1000
 
 let gameInterval
 
@@ -95,7 +91,7 @@ let dropInterval
 
 function randomPiece() { // Generates a random piece and assigns it to active piece
   const randomNumber = Math.floor(Math.random() * tetrominoes.length)
-  activePiece = tetrominoes[randomNumber]
+  activePiece = tetrominoes[randomNumber] // tetrominoes[randomNumber]
 }
 
 function createGrid() {
@@ -122,10 +118,7 @@ function runGame() {
 
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-// 
-function moveTetroDown() {
-  
-}
+
 
 
 // ----------
@@ -183,6 +176,173 @@ function stopAndResetPiece() {
   movePiece()
 }
 
+// function checkTetris() {
+
+//   // I can check if a piece is in a cell with cell.classList.length === 2
+//   // I push that piece into the tetrisRows array. 
+//   // check through the array and if the value is there dont push into array
+
+//   // start with altering how to push items in the array 
+
+//   cells.forEach(cell => {
+
+//     if(cell.classList.length === 2) {
+//       tetrisRows.push(cell)
+//     }
+
+//     // console.log(`Cell Classlist Length -->`, cell.classList.length)
+//     // if(cell.classList.length === 2 && tetrisRows.indexOf(cell) === -1) {
+//     //   tetrisRows.push(cell.innerText)
+//     //   console.log(`Tetris Rows Array -->`, tetrisRows)
+//     // }
+
+//   })
+
+// }
+
+// checkTetris()
+
+
+// const rows = {
+//   zero: cells.slice(0,10),
+//   one: cells.slice(10, 20),
+//   two: cells.slice(20, 30),
+//   three: cells.slice(30, 40),
+//   four: cells.slice(40, 50),
+//   five: cells.slice(50, 60),
+//   six: cells.slice(60, 70),
+//   seven: cells.slice(70, 80),
+//   eight: cells.slice(80, 90),
+//   nine: cells.slice(90, 100),
+//   ten: cells.slice(100, 110),
+//   eleven: cells.slice(110, 120),
+//   twelve: cells.slice(120, 130),
+//   thirteen: cells.slice(130, 140),
+//   fourteen: cells.slice(140, 150),
+//   fifteen: cells.slice(150, 160)
+// }
+
+// const rowsArray = [
+//   [cells.slice(0,10)],
+//   [cells.slice(10, 20)]
+// ]
+
+const rows = []
+
+// for(let i = 0; i < height; i++) {
+//   // console.log(height)
+//   rows.push([])
+//   for(let j = 0; j < width; j++) {
+//     rows[i].push(j)
+//   }
+// }
+
+for(let i = 0; i < height; i++) {
+  rows.push([])
+}
+
+cells.forEach(cell => {
+    if(Number(cell.innerText) >= 0 && Number(cell.innerText) < 10) {
+      rows[0].push(Number(cell.innerText))
+    }  
+    if(Number(cell.innerText) >= 10 && Number(cell.innerText) < 20) {
+      rows[1].push(Number(cell.innerText))
+    }
+    if(Number(cell.innerText) >= 20 && Number(cell.innerText) < 30) {
+      rows[2].push(Number(cell.innerText))
+    }
+    if(Number(cell.innerText) >= 30 && Number(cell.innerText) < 40) {
+      rows[3].push(Number(cell.innerText))
+    }
+    if(Number(cell.innerText) >= 40 && Number(cell.innerText) < 50) {
+      rows[4].push(Number(cell.innerText))
+    }
+    if(Number(cell.innerText) >= 50 && Number(cell.innerText) < 60) {
+      rows[5].push(Number(cell.innerText))
+    }
+    if(Number(cell.innerText) >= 60 && Number(cell.innerText) < 70) {
+      rows[6].push(Number(cell.innerText))
+    }
+    if(Number(cell.innerText) >= 70 && Number(cell.innerText) < 80) {
+      rows[7].push(Number(cell.innerText))
+    }
+    if(Number(cell.innerText) >= 80 && Number(cell.innerText) < 90) {
+      rows[8].push(Number(cell.innerText))
+    }
+    if(Number(cell.innerText) >= 90 && Number(cell.innerText) < 100) {
+      rows[9].push(Number(cell.innerText))
+    }
+    if(Number(cell.innerText) >= 100 && Number(cell.innerText) < 110) {
+      rows[10].push(Number(cell.innerText))
+    }
+    if(Number(cell.innerText) >= 110 && Number(cell.innerText) < 120) {
+      rows[11].push(Number(cell.innerText))
+    }
+    if(Number(cell.innerText) >= 120 && Number(cell.innerText) < 130) {
+      rows[12].push(Number(cell.innerText))
+    }
+    if(Number(cell.innerText) >= 130 && Number(cell.innerText) < 140) {
+      rows[13].push(Number(cell.innerText))
+    }
+    if(Number(cell.innerText) >= 140 && Number(cell.innerText) < 150) {
+      rows[14].push(Number(cell.innerText))
+    }
+    if(Number(cell.innerText) >= 150 && Number(cell.innerText) < 160) {
+      rows[15].push(Number(cell.innerText))
+    }
+})
+
+function checkGridRows() {
+  for(let i = 0; i < rows.length; i++) {
+    // console.log(rows[i])
+    const gridRows = rows[i]
+    const gridRowsFull = gridRows.every(position => cells[position].classList.length === 2)
+    if(gridRowsFull) {
+      rows[i].forEach(position => {
+        cells[position].classList.remove('i') 
+        cells[position].classList.remove('l')
+        cells[position].classList.remove('j')
+        cells[position].classList.remove('t')
+        cells[position].classList.remove('s')
+        cells[position].classList.remove('z')
+        cells[position].classList.remove('o')
+      })
+      score += 100
+    }
+  }
+}
+
+
+// const bottomRow = [150, 151, 152, 153, 154, 155, 156, 157, 158, 159]
+
+// function checkBottomRowAndClear() {
+
+//   const bottomRowIsFull = bottomRow.every(position => cells[position].classList.length === 2)
+
+//   // console.log('bottom row full', bottomRowIsFull)
+
+//   if(bottomRowIsFull) {
+//     // somehow loop through cells and remove classes that correspond to the shape
+//     // something like this maybe
+//     bottomRow.forEach(position => {
+//       cells[position].classList.remove('i') 
+//       cells[position].classList.remove('l')
+//       cells[position].classList.remove('j')
+//       cells[position].classList.remove('t')
+//       cells[position].classList.remove('s')
+//       cells[position].classList.remove('z')
+//       cells[position].classList.remove('o')
+//     })
+// }}
+
+function trackGameSpeed() {
+  if(score > 100) gameSpeed = 900
+  if(score > 200) gameSpeed = 800
+  if(score > 300) gameSpeed = 700
+  if(score > 400) gameSpeed = 650
+  if(score > 500) gameSpeed = 600
+  if(score > 600) gameSpeed = 500
+}
 
 function movePiece(first) {
 
@@ -190,7 +350,14 @@ function movePiece(first) {
 
   gameInterval = setInterval(() => { // The game runs inside this interval
 
-    const hasHitBottom = activePiece.currentLocations.some(position => position > 149) // will be true or false
+    //checkBottomRowAndClear()
+    setInterval(() => {
+      checkGridRows()
+    }, 300)
+    // console.log(`Score -->`,score)
+    trackGameSpeed()
+
+    const hasHitBottom = activePiece.currentLocations.some(position => position > 149) // will be true or false if some of the indexs in the array meet this condition
 
     // console.log(activePiece.currentLocations)
 
@@ -215,13 +382,25 @@ function movePiece(first) {
     removePiece(activePiece.currentLocations) // remove a piece from this location
     activePiece.currentLocations = activePiece.currentLocations.map(position => position + width) // updates the piece location
     addPiece(activePiece.currentLocations) // adds the piece back at the new location
+    // console.log(tetrisRows)
 
-
-
-
-  }, 800)
+  }, gameSpeed)
 
 }
+
+
+
+// cells.slice(150, 159)
+
+// console.log(cells.slice(150, 160))
+
+// cells.forEach(cell => {
+//   if(Number(cell.innerText) >= 140 && Number(cell.innerText) <= 148) {
+//     cell.classList.add('stopped')
+//   }
+
+
+
 
 // function to handle keys
 // remove from active piece current positions 
@@ -230,6 +409,7 @@ function movePiece(first) {
 // use the map to reassign the values of active piece current positions
 // check key press first then handle conditions
 // console.log key presses are registering
+
 
 function handleKeyPress(event) {
   // console.log(event.keyCode)
@@ -242,9 +422,15 @@ function handleKeyPress(event) {
   
 
   if(key === 39 && activePiece.currentLocations[0] % width !== width - 1 && activePiece.currentLocations[1] % width !== width - 1 && activePiece.currentLocations[2] % width !== width - 1 && activePiece.currentLocations[3] % width !== width - 1) { // Right
-    removePiece(activePiece.currentLocations) // remove a piece from this location
-    activePiece.currentLocations = activePiece.currentLocations.map(position => position + 1) // updates the piece location
-    addPiece(activePiece.currentLocations) // adds the piece back at the new location
+
+  
+
+      removePiece(activePiece.currentLocations) // remove a piece from this location
+      activePiece.currentLocations = activePiece.currentLocations.map(position => position + 1) // updates the piece location
+      addPiece(activePiece.currentLocations) // adds the piece back at the new location
+
+    
+
   }
 
   if(key === 40 && activePiece.currentLocations[0] + width <= cellCount && activePiece.currentLocations[1] + width <= cellCount && activePiece.currentLocations[2] + width <= cellCount && activePiece.currentLocations[3] + width <= cellCount) { // Down
@@ -386,7 +572,7 @@ function drop() {
 
           // moveTetroDown(piece[i]) - add this in after break
 
-          checkTetris()
+          // checkTetris()
 
           //  (`test ->`,test)
 
