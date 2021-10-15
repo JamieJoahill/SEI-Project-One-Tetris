@@ -434,31 +434,49 @@ function handleKeyPress(event) {
     // Rotate
     rotate()
   }
-  
 
-  if(key === 39 && activePiece.currentLocations[0] % width !== width - 1 && activePiece.currentLocations[1] % width !== width - 1 && activePiece.currentLocations[2] % width !== width - 1 && activePiece.currentLocations[3] % width !== width - 1) { // Right
-
-  
-
-      removePiece(activePiece.currentLocations) // remove a piece from this location
-      activePiece.currentLocations = activePiece.currentLocations.map(position => position + 1) // updates the piece location
-      addPiece(activePiece.currentLocations) // adds the piece back at the new location
-
-    
-
+  if(key === 39 && activePiece.currentLocations.every(position => position % width !== width - 1)) {
+    removePiece(activePiece.currentLocations) // remove a piece from this location
+    activePiece.currentLocations = activePiece.currentLocations.map(position => position + 1) // updates the piece location
+    addPiece(activePiece.currentLocations) // adds the piece back at the new location
   }
 
-  if(key === 40 && activePiece.currentLocations[0] + width <= cellCount && activePiece.currentLocations[1] + width <= cellCount && activePiece.currentLocations[2] + width <= cellCount && activePiece.currentLocations[3] + width <= cellCount) { // Down
+  if(key === 40 && activePiece.currentLocations.every(position => position + width <= cellCount)) {
     removePiece(activePiece.currentLocations) // remove a piece from this location
     activePiece.currentLocations = activePiece.currentLocations.map(position => position + width) // updates the piece location
     addPiece(activePiece.currentLocations) // adds the piece back at the new location
   }
 
-  if(key === 37 && activePiece.currentLocations[0] % width !== 0 && activePiece.currentLocations[1] % width !== 0 && activePiece.currentLocations[2] % width !== 0 && activePiece.currentLocations[3] % width !== 0) { // Left
+  if(key === 37 && activePiece.currentLocations.every(position => position % width !== 0)) {
     removePiece(activePiece.currentLocations) // remove a piece from this location
     activePiece.currentLocations = activePiece.currentLocations.map(position => position - 1) // updates the piece location
     addPiece(activePiece.currentLocations) // adds the piece back at the new location
   }
+  
+
+  // if(key === 39 && activePiece.currentLocations[0] % width !== width - 1 && activePiece.currentLocations[1] % width !== width - 1 && activePiece.currentLocations[2] % width !== width - 1 && activePiece.currentLocations[3] % width !== width - 1) { // Right
+
+  
+
+  //     removePiece(activePiece.currentLocations) // remove a piece from this location
+  //     activePiece.currentLocations = activePiece.currentLocations.map(position => position + 1) // updates the piece location
+  //     addPiece(activePiece.currentLocations) // adds the piece back at the new location
+
+    
+
+  // }
+
+  // if(key === 40 && activePiece.currentLocations[0] + width <= cellCount && activePiece.currentLocations[1] + width <= cellCount && activePiece.currentLocations[2] + width <= cellCount && activePiece.currentLocations[3] + width <= cellCount) { // Down
+  //   removePiece(activePiece.currentLocations) // remove a piece from this location
+  //   activePiece.currentLocations = activePiece.currentLocations.map(position => position + width) // updates the piece location
+  //   addPiece(activePiece.currentLocations) // adds the piece back at the new location
+  // }
+
+  // if(key === 37 && activePiece.currentLocations[0] % width !== 0 && activePiece.currentLocations[1] % width !== 0 && activePiece.currentLocations[2] % width !== 0 && activePiece.currentLocations[3] % width !== 0) { // Left
+  //   removePiece(activePiece.currentLocations) // remove a piece from this location
+  //   activePiece.currentLocations = activePiece.currentLocations.map(position => position - 1) // updates the piece location
+  //   addPiece(activePiece.currentLocations) // adds the piece back at the new location
+  // }
 }
 
 
