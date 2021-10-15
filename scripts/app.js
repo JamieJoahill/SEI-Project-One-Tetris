@@ -1,5 +1,6 @@
 const grid = document.querySelector('.grid')
 const button = document.querySelector('button')
+const resetButton = document.querySelector('reset-btn')
 
 // Grid Elements
 const width = 10
@@ -109,7 +110,7 @@ createGrid()
 
 // When Run button Clicked run the run game function
 function runGame() {
-
+    playAudio()
     randomPiece() // pick a piece
     addPiece(activePiece.currentLocations)// add a piece
     movePiece('first')// call function to start timer
@@ -399,8 +400,16 @@ function movePiece(first) {
 //     cell.classList.add('stopped')
 //   }
 
+function rotate() {
+  // console.log(activePiece.currentLocations[1]) stays the same
+  console.log('Rotate')
+  // removePiece(activePiece.currentLocations)
+  // activePiece.currentLocations = activePiece.currentLocations.map(position => console.log(position))
+  // addPiece(activePiece.currentLocations)
+}
 
 
+// console.log(activePiece.currentLocations)
 
 // function to handle keys
 // remove from active piece current positions 
@@ -409,6 +418,11 @@ function movePiece(first) {
 // use the map to reassign the values of active piece current positions
 // check key press first then handle conditions
 // console.log key presses are registering
+const audio = document.querySelector('audio')
+function playAudio() {
+  audio.src = `./audio/Verbalase Low Tetris Beatbox (FULL VIDEO) - Bruh Momento.mp3`
+  audio.play()
+}
 
 
 function handleKeyPress(event) {
@@ -418,6 +432,7 @@ function handleKeyPress(event) {
 
   if(key === 38) { // Up
     // Rotate
+    rotate()
   }
   
 

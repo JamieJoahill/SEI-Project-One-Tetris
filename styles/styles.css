@@ -11,11 +11,51 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: rgb(2,0,36);
+  background: linear-gradient(135deg, rgba(2,0,36,1) 13%, rgba(74,9,121,1) 49%, rgba(139,0,255,1) 88%);
 }
 
 button {
-  margin-top: 30px;
-  width: 30%;
+  position: absolute;
+  top: 50%;
+  left: 11%;
+  width: 15%;
+  background-color: transparent;
+  color:rgb(228, 224, 224);
+  border: 3px solid rgb(228, 224, 224);
+  border-radius: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight: bold;
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(215, 210, 213, 0.384);
+  -moz-box-shadow:    0px 0px 20px 0px rgba(215, 210, 213, 0.384);
+  box-shadow:         0px 0px 20px 0px rgba(215, 210, 213, 0.384);
+  transition: all .3s ease;
+}
+
+.reset-btn {
+  display: none;
+  height: 35px;
+  border-radius: 20px;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 8px;
+  padding-right: 8px;
+  width: 100px;
+  border: 3px solid rgb(228, 224, 224);
+  color:rgb(228, 224, 224);
+  position: absolute;
+  cursor: pointer;
+  top: 60%;
+  left: 15%;
+}
+
+button:hover {
+  -webkit-box-shadow: 5px 11px 21px 0px rgba(215, 210, 213, 0.79);
+  -moz-box-shadow:    5px 11px 21px 0px rgba(215, 210, 213, 0.79);
+  box-shadow:         5px 3px 20px 0px rgba(215, 210, 213, 0.767);
+  cursor: pointer;
 }
 
 .grid-wrapper {
@@ -45,6 +85,74 @@ button {
   color: rgb(228, 224, 224);
   color: transparent;
 }
+
+.game-logo {
+  background-image: url('https://upload.wikimedia.org/wikipedia/en/b/b0/The_Tetris_Company_logo.png');
+  /* background-color: #cccccc; Used if the image is unavailable */
+  height: 120px; /* You must set a specified height */
+  width: 400px;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+  position: absolute;
+  top: 15%;
+  left: 5%;
+
+}
+
+.high-score {
+  position: absolute;
+  right: 5%;
+  top: 15%;
+  /* border: 1px solid red;  */
+  width: 300px;
+  height: 400px;
+  background-color:rgb(87, 73, 107);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.high-score h2 {
+  color:rgba(196, 180, 189, 0.918);
+  padding-top: 10px;
+}
+
+.high-score ul {
+  /* border: 1px solid red; */
+  margin-top: 10px;
+  width: 250px;
+}
+
+.high-score li {
+  list-style: none;
+  height: 30px;
+  border: 1px solid #fff;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-top: 15px;
+  margin-bottom: 14px;
+  border-radius: 5px;
+}
+
+
+body > div.high-score > table > tbody > tr:nth-child(1) {
+  font-size: 20px;
+}
+
+body > div.high-score > table > tbody > tr:nth-child(1) .rank {
+  padding-right: 25px;
+}
+
+body > div.high-score > table > tbody > tr:nth-child(1) .score {
+  padding-right: 25px;
+}
+
+body > div.high-score > table > tbody > tr:nth-child(1) .name {
+
+}
+
 
 /* Color Palette */
 /* https://coolors.co/3c91e6-06d6a0-efa00b-7e3f8f-e0607e-fb3640-307351 */
