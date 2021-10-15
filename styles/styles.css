@@ -121,7 +121,7 @@ button:hover {
   justify-content: center;
   align-items: center;
   color: rgb(228, 224, 224);
-  /* color: transparent; */
+  color: transparent;
 }
 
 .game-logo {
