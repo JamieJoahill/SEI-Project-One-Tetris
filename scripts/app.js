@@ -1,6 +1,6 @@
 const grid = document.querySelector('.grid')
 const button = document.querySelector('button')
-const resetButton = document.querySelector('reset-btn')
+const resetButton = document.querySelector('.reset-btn')
 
 // Grid Elements
 const width = 10
@@ -110,11 +110,16 @@ createGrid()
 
 // When Run button Clicked run the run game function
 function runGame() {
+    resetButton.style.display = 'block'
     playAudio()
     randomPiece() // pick a piece
     addPiece(activePiece.currentLocations)// add a piece
     movePiece('first')// call function to start timer
     
+}
+
+function resetGame() {
+  window.location.reload()
 }
 
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -228,7 +233,7 @@ function stopAndResetPiece() {
 //   [cells.slice(10, 20)]
 // ]
 
-const rows = []
+// const rows = []
 
 // for(let i = 0; i < height; i++) {
 //   // console.log(height)
@@ -238,9 +243,13 @@ const rows = []
 //   }
 // }
 
+const rows = []
+
 for(let i = 0; i < height; i++) {
   rows.push([])
 }
+
+// console.log(rows.length)
 
 cells.forEach(cell => {
     if(Number(cell.innerText) >= 0 && Number(cell.innerText) < 10) {
@@ -297,9 +306,11 @@ function checkGridRows() {
   for(let i = 0; i < rows.length; i++) {
     // console.log(rows[i])
     const gridRows = rows[i]
+    //console.log(gridRows)
     const gridRowsFull = gridRows.every(position => cells[position].classList.length === 2)
     if(gridRowsFull) {
       rows[i].forEach(position => {
+
         cells[position].classList.remove('i') 
         cells[position].classList.remove('l')
         cells[position].classList.remove('j')
@@ -307,25 +318,175 @@ function checkGridRows() {
         cells[position].classList.remove('s')
         cells[position].classList.remove('z')
         cells[position].classList.remove('o')
+
+        //console.log(rows[i])
+
+        if(rows[i][0] === 60) {
+          //console.log(`Row 13 Cleared`);
+          score += 100
+          return
+        }
+
+        if(rows[i][0] === 70) {
+          //console.log(`Row 13 Cleared`);
+          score += 100
+          return
+        }
+        if(rows[i][0] === 80) {
+          //console.log(`Row 13 Cleared`);
+          score += 100
+          return
+        }
+
+        if(rows[i][0] === 90) {
+          //console.log(`Row 13 Cleared`);
+          score += 100
+          return
+        }
+
+        if(rows[i][0] === 80) {
+          //console.log(`Row 13 Cleared`);
+          score += 100
+          return
+        }
+
+        if(rows[i][0] === 90) {
+          //console.log(`Row 13 Cleared`);
+          score += 100
+          return
+        }
+
+        if(rows[i][0] === 100) {
+          //console.log(`Row 13 Cleared`);
+          score += 100
+          return
+        }
+
+        if(rows[i][0] === 110) {
+          //console.log(`Row 13 Cleared`);
+          score += 100
+          return
+        }
+
+        if(rows[i][0] === 120) {
+          //console.log(`Row 13 Cleared`);
+          score += 100
+          return
+        }
+
+        if(rows[i][0] === 130) {
+          //console.log(`Row 13 Cleared`);
+          console.log(rows[i][0])
+          score += 100
+          return
+        }
+
+        if(rows[i][0] === 140) {
+          //console.log(`Row 14 Cleared`);
+          score += 100
+          return
+        }
+
+        if(rows[i][0] === 150) {
+          //console.log(`Row 15 Cleared`);
+
+          // removePiece(activePiece.currentLocations) // remove a piece from this location
+          // activePiece.currentLocations = activePiece.currentLocations.map(position => position + width) // updates the piece location
+          // addPiece(activePiece.currentLocations) // adds the piece back at the new location
+          score += 100
+          return
+        }
       })
-      score += 100
     }
   }
 }
 
 
-// const bottomRow = [150, 151, 152, 153, 154, 155, 156, 157, 158, 159]
+const bottomRow = [150, 151, 152, 153, 154, 155, 156, 157, 158, 159]
 
-// function checkBottomRowAndClear() {
+function checkBottomRowAndClear() {
 
-//   const bottomRowIsFull = bottomRow.every(position => cells[position].classList.length === 2)
+  const bottomRowIsFull = bottomRow.every(position => cells[position].classList.length === 2)
 
-//   // console.log('bottom row full', bottomRowIsFull)
+  // console.log('bottom row full', bottomRowIsFull)
 
-//   if(bottomRowIsFull) {
-//     // somehow loop through cells and remove classes that correspond to the shape
-//     // something like this maybe
-//     bottomRow.forEach(position => {
+  if(bottomRowIsFull) {
+    // somehow loop through cells and remove classes that correspond to the shape
+    // something like this maybe
+    bottomRow.forEach(position => {
+      cells[position].classList.remove('i') 
+      cells[position].classList.remove('l')
+      cells[position].classList.remove('j')
+      cells[position].classList.remove('t')
+      cells[position].classList.remove('s')
+      cells[position].classList.remove('z')
+      cells[position].classList.remove('o')
+    })
+}}
+
+
+// const cellsNumbers = []
+
+// function cellNumbersFunction() {
+//   cells.forEach(cell => cellsNumbers.push(Number(cell.innerText)))
+// }
+// cellNumbersFunction()
+
+// const row0 = cellsNumbers.slice(0, 10)
+// const row1 = cellsNumbers.slice(10, 20)
+// const row2 = cellsNumbers.slice(20, 30)
+// const row3 = cellsNumbers.slice(30, 40)
+// const row4 = cellsNumbers.slice(40, 50)
+// const row5 = cellsNumbers.slice(50, 60)
+// const row6 = cellsNumbers.slice(60, 70)
+// const row7 = cellsNumbers.slice(70, 80)
+// const row8 = cellsNumbers.slice(80, 90)
+// const row9 = cellsNumbers.slice(90, 100)
+// const row10 = cellsNumbers.slice(100, 110)
+// const row11 = cellsNumbers.slice(110, 120)
+// const row12 = cellsNumbers.slice(120, 130)
+// const row13 = cellsNumbers.slice(130, 140)
+// const row14 = cellsNumbers.slice(140, 150)
+// const row15 = cellsNumbers.slice(150, 160)
+
+// function checkRowsAndClear() {
+//   const row0isFull = row0.every(position => cells[position].classList.length === 2)
+//   const row1isFull = row0.every(position => cells[position].classList.length === 2)
+//   const row2isFull = row0.every(position => cells[position].classList.length === 2)
+//   const row3isFull = row0.every(position => cells[position].classList.length === 2)
+//   const row4isFull = row0.every(position => cells[position].classList.length === 2)
+//   const row5isFull = row0.every(position => cells[position].classList.length === 2)
+//   const row6isFull = row0.every(position => cells[position].classList.length === 2)
+//   const row7isFull = row0.every(position => cells[position].classList.length === 2)
+//   const row8isFull = row0.every(position => cells[position].classList.length === 2)
+//   const row9isFull = row0.every(position => cells[position].classList.length === 2)
+//   const row10isFull = row0.every(position => cells[position].classList.length === 2)
+//   const row11isFull = row0.every(position => cells[position].classList.length === 2)
+//   const row12isFull = row0.every(position => cells[position].classList.length === 2)
+//   const row13isFull = row0.every(position => cells[position].classList.length === 2)
+//   const row14isFull = row0.every(position => cells[position].classList.length === 2)
+//   const row15isFull = row0.every(position => cells[position].classList.length === 2)
+
+//   if(
+//     row0isFull ||
+//     row1isFull ||
+//     row2isFull ||
+//     row3isFull ||
+//     row4isFull ||
+//     row5isFull ||
+//     row6isFull ||
+//     row7isFull ||
+//     row8isFull ||
+//     row9isFull ||
+//     row10isFull ||
+//     row11isFull ||
+//     row12isFull ||
+//     row13isFull ||
+//     row14isFull ||
+//     row15isFull
+//   )
+//   {
+//     cellsNumbers.forEach(position => {
 //       cells[position].classList.remove('i') 
 //       cells[position].classList.remove('l')
 //       cells[position].classList.remove('j')
@@ -334,7 +495,12 @@ function checkGridRows() {
 //       cells[position].classList.remove('z')
 //       cells[position].classList.remove('o')
 //     })
-// }}
+//   }
+// }
+// checkRowsAndClear()
+
+
+
 
 function trackGameSpeed() {
   if(score > 100) gameSpeed = 900
@@ -354,6 +520,7 @@ function movePiece(first) {
     //checkBottomRowAndClear()
     setInterval(() => {
       checkGridRows()
+      // checkRowsAndClear()
     }, 300)
     // console.log(`Score -->`,score)
     trackGameSpeed()
@@ -447,7 +614,7 @@ function handleKeyPress(event) {
       removePiece(activePiece.currentLocations) // remove a piece from this location
       activePiece.currentLocations = activePiece.currentLocations.map(position => position + 1) // updates the piece location
       addPiece(activePiece.currentLocations) // adds the piece back at the new location
-      console.log(`Look Ahead -->`,activePiece.currentLocations.some(position => cells[position + 1].classList.length === 2))
+      // console.log(`Look Ahead -->`,activePiece.currentLocations.some(position => cells[position + 1].classList.length === 2))
 
 
   }
@@ -508,7 +675,7 @@ function handleKeyPress(event) {
 
 
 
-
+resetButton.addEventListener('click', resetGame)
 document.addEventListener('keydown', handleKeyPress)
 
 

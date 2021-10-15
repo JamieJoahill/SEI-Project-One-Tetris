@@ -85,7 +85,7 @@ button {
   color:rgb(228, 224, 224);
   position: absolute;
   cursor: pointer;
-  top: 60%;
+  top: 58%;
   left: 15%;
 }
 
@@ -121,7 +121,7 @@ button:hover {
   justify-content: center;
   align-items: center;
   color: rgb(228, 224, 224);
-  color: transparent;
+  /* color: transparent; */
 }
 
 .game-logo {
