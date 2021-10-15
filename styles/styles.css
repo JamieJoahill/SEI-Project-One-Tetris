@@ -125,7 +125,8 @@ button:hover {
 }
 
 .game-logo {
-  background-image: url('https://upload.wikimedia.org/wikipedia/en/b/b0/The_Tetris_Company_logo.png');
+  /* background-image: url('https://upload.wikimedia.org/wikipedia/en/b/b0/The_Tetris_Company_logo.png'); */
+  background-image: url('../assets/The_Tetris_Company_logo.png');
   /* background-color: #cccccc; Used if the image is unavailable */
   height: 120px; /* You must set a specified height */
   width: 400px;

@@ -434,20 +434,47 @@ function handleKeyPress(event) {
     // Rotate
     rotate()
   }
-
+  // cells[position + width].classList.length === 2
   if(key === 39 && activePiece.currentLocations.every(position => position % width !== width - 1)) {
-    removePiece(activePiece.currentLocations) // remove a piece from this location
-    activePiece.currentLocations = activePiece.currentLocations.map(position => position + 1) // updates the piece location
-    addPiece(activePiece.currentLocations) // adds the piece back at the new location
+
+    if(activePiece.currentLocations.some(position => cells[position + 1].classList.length === 2)) {
+      removePiece(activePiece.currentLocations) // remove a piece from this location
+      activePiece.currentLocations = activePiece.currentLocations.map(position => position + 0) // updates the piece location
+      addPiece(activePiece.currentLocations) // adds the piece back at the new location
+      return
+    }
+
+      removePiece(activePiece.currentLocations) // remove a piece from this location
+      activePiece.currentLocations = activePiece.currentLocations.map(position => position + 1) // updates the piece location
+      addPiece(activePiece.currentLocations) // adds the piece back at the new location
+      console.log(`Look Ahead -->`,activePiece.currentLocations.some(position => cells[position + 1].classList.length === 2))
+
+
   }
 
   if(key === 40 && activePiece.currentLocations.every(position => position + width <= cellCount)) {
+
+    if(activePiece.currentLocations.some(position => cells[position + width].classList.length === 2)) {
+      removePiece(activePiece.currentLocations) // remove a piece from this location
+      activePiece.currentLocations = activePiece.currentLocations.map(position => position + 0) // updates the piece location
+      addPiece(activePiece.currentLocations) // adds the piece back at the new location
+      return
+    }
+
     removePiece(activePiece.currentLocations) // remove a piece from this location
     activePiece.currentLocations = activePiece.currentLocations.map(position => position + width) // updates the piece location
     addPiece(activePiece.currentLocations) // adds the piece back at the new location
   }
 
   if(key === 37 && activePiece.currentLocations.every(position => position % width !== 0)) {
+
+    if(activePiece.currentLocations.some(position => cells[position - 1].classList.length === 2)) {
+      removePiece(activePiece.currentLocations) // remove a piece from this location
+      activePiece.currentLocations = activePiece.currentLocations.map(position => position + 0) // updates the piece location
+      addPiece(activePiece.currentLocations) // adds the piece back at the new location
+      return
+    }
+
     removePiece(activePiece.currentLocations) // remove a piece from this location
     activePiece.currentLocations = activePiece.currentLocations.map(position => position - 1) // updates the piece location
     addPiece(activePiece.currentLocations) // adds the piece back at the new location
